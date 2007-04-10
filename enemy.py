@@ -23,10 +23,10 @@ class EnemyManager(pygame.sprite.RenderUpdates):
 		self.transition_speed=5
 		self.transition_time=150/self.transition_speed
 		self.current_transition=0
-	def shoot(self,shotslist):
+	def shoot(self):
 		self.asdf=random.randint(0,globalvars.enemy_bullet_odds)
 		if self.asdf < len(self):
-			self.sprites()[self.asdf].shoot(shotslist)
+			self.sprites()[self.asdf].shoot()
 	
 	def update(self):
 		if self.current_transition<self.transition_time:
@@ -50,7 +50,7 @@ class Enemy(pygame.sprite.Sprite):
 	#image = globalvars.enemyship
 	
 	
-	def __init__(self, parent):
+	def __init__(self, parent, gun, health=1):
 		self.parent=parent
 		pygame.sprite.Sprite.__init__(self) #call Sprite initializer
 		self.enspeed=globalvars.init_enemy_speed
@@ -60,6 +60,8 @@ class Enemy(pygame.sprite.Sprite):
 		self.en_state=(-1)*(1)
 		self.image=globalvars.enemyship
 		self.rect = self.image.get_rect()
+		self.health=health
+		self.gun=gun
 	
 	#def get_pos(self):
 		#return self.enx,self.eny
@@ -76,6 +78,14 @@ class Enemy(pygame.sprite.Sprite):
 	
 	def get_range(self):
 		return self.en_xmin,self.en_xmax
+	
+	def set_health(self,health):
+		self.health=health
+		
+	def hit(self,damage):
+		self.health-=damage
+		if self.health <= 0:
+			self.en_state=0
 	
 	def update(self, transition_speed):  #yay for update...
 		#this is actually surgy's code but i adapted it to my own and rewrote it
@@ -109,10 +119,8 @@ class Enemy(pygame.sprite.Sprite):
 	def get_state(self):
 		return self.en_state
 	
-	def shoot(self,shotslist):
-		tempb=EnemyBullet(shotslist)
-		tempb.set_pos(self.rect.left+self.rect.width/2,self.rect.bottom)
-		shotslist.add(tempb)
+	def shoot(self):
+		self.gun.shoot(self.rect)
 ###################
 
 

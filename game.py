@@ -21,7 +21,8 @@ try:
 	from display import *
 	from menu import Menu
 	from menulists import MenuLists,menulists
-	import ecollision
+	import ecollision #testing class for smarter collisions
+	from gun import Gun
 except:
 	print "A File Was Missing. CHECK!"
 	#sys.exit(0)
@@ -41,10 +42,10 @@ class Gamelolz:
 		self.rightkeydown=0
 		self.enemylist=[]
 		self.list_enemys=EnemyManager()
-		self.stage=Stage(self.list_enemys,globalvars.player_list)
+		self.player_list=pygame.sprite.RenderUpdates()
 		self.list_allie_shots=pygame.sprite.RenderUpdates()
 		self.enemy_shots=pygame.sprite.RenderUpdates()
-
+		self.stage=Stage(self.list_enemys,self.player_list)
 		
 	#clears all the variables
 	def clear_vars(self):
@@ -58,14 +59,14 @@ class Gamelolz:
 		globalvars.enemy_bullet_odds=100
 		self.list_enemys.empty()
 		self.list_allie_shots.empty()
-		globalvars.player_list.empty()
+		self.player_list.empty()
 		self.enemy_shots.empty()
 		print "Game Restarted"
 		
 	#define function to draw player ship on X, Y plane
 	def pship(self, x,y):
-		globalvars.player_list.clear(globalvars.surface,globalvars.screen)
-		self.enemylist+=globalvars.player_list.draw(globalvars.surface)
+		self.player_list.clear(globalvars.surface,globalvars.screen)
+		self.enemylist+=self.player_list.draw(globalvars.surface)
 	
 	#Define function to move the enemy ship
 	def emove(self):
@@ -79,7 +80,7 @@ class Gamelolz:
 			#now for the rows
 			for enemyrow in range(self.stage.get_stage()[1]):
 				#make a new enemy object:
-				tempenemy=Enemy(self.list_enemys)
+				tempenemy=Enemy(self.list_enemys,Gun(self.enemy_shots,EnemyBullet))
 				#this ones a long one, but it works:
 				tempenemy.set_pos(globalvars.xmin+enemycol*(globalvars.enemy_width+globalvars.enemy_spacing_x),globalvars.ymin+enemyrow*(globalvars.enemy_height+globalvars.enemy_spacing_y)-150)
 				#this one is even worse, but works even better:
@@ -93,11 +94,12 @@ class Gamelolz:
 	#i think i might switch to the objects, but still keep this function just hand the computing to the object
 	#seems most efficient
 	def test_collision(self):
-		todie=pygame.sprite.groupcollide(self.list_enemys, self.list_allie_shots,0,0)
+		todie=ecollision.groupcollide(self.list_enemys, self.list_allie_shots,0,0,ecollision.BOTTOM)
+		#todie=pygame.sprite.groupcollide(self.list_enemys, self.list_allie_shots,0,0)
 		#print todie
 		for enemy,bullet in todie.iteritems():
 			self.list_allie_shots.remove(bullet)
-			enemy.set_state(0)
+			enemy.hit(1)
 			points.add_points(1)
 		if pygame.sprite.spritecollideany(self.player, self.enemy_shots):
 			#print "ZOMFG SHOTZORZ"
@@ -106,7 +108,7 @@ class Gamelolz:
 	
 	#if there are no enemys left, go to the next stage
 	def check_done(self):
-		if not self.list_enemys:
+		if not globalvars.asdf%20 and not self.list_enemys:
 			self.stage.next_stage()
 			self.draw_enemys()
 	
@@ -136,8 +138,8 @@ class Gamelolz:
 		
 	
 	#this is called if the player shoots
-	def pshoot(self, sx, sy):
-		self.player.shoot(self.list_allie_shots,sx,sy)
+	def pshoot(self):
+		self.player.shoot()
 	
 	#draws the bullet.... duh. come on dude.
 	def drawbullets(self):
@@ -172,7 +174,7 @@ class Gamelolz:
 		self.test_collision()
 		self.check_rows()
 		bgstars.update()
-		self.list_enemys.shoot(self.enemy_shots)
+		self.list_enemys.shoot()
 		self.player.update()
 	
 	def draw(self):
@@ -218,7 +220,7 @@ class Gamelolz:
 						
 			## if the mouse is clicked, shoot!
 			if event.type == pygame.MOUSEBUTTONDOWN:
-				self.pshoot(self.player.rect.centerx-globalvars.BULLET_WIDTH/2,globalvars.y)
+				self.pshoot()
 			
 			## if 'q' is pressed, quit
 			if event.type == pygame.KEYDOWN:
@@ -256,8 +258,8 @@ class Gamelolz:
 	#pretty simple
 	def start(self):
 		self.clear_vars()
-		self.player=Player()
-		globalvars.player_list.add(self.player)
+		self.player=Player(self.player_list,Gun(self.list_allie_shots,Bullet))
+		self.player_list.add(self.player)
 		self.player.set_pos(globalvars.x,globalvars.y)
 		self.loop()
 

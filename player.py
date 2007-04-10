@@ -18,12 +18,14 @@ from bullet import Bullet
 #origional program had a few boring player lines, so i made it an object, cuz objects are cool
 class Player(pygame.sprite.Sprite):
 	
-	def __init__(self):
+	def __init__(self,parent,gun):
 		pygame.sprite.Sprite.__init__(self) #call Sprite initializer
+		self.parent=parent
 		self.image= playership[0]
 		self.rect = self.image.get_rect()
 		self.state=0
 		self.speed=10
+		self.gun=gun
 	
 	def get_pos(self):
 		return self.rect
@@ -52,11 +54,8 @@ class Player(pygame.sprite.Sprite):
 	def set_hit(self):
 		self.state=1
 		
-	def shoot(self,shotslist,locx,locy):
-		self.boom=Bullet(shotslist)
-		self.boom.set_pos(locx,locy)
-		#self.boom.set_speed(globalvars.BUL)
-		shotslist.add(self.boom)
+	def shoot(self):
+		self.gun.shoot(self.rect)
 		
 	def update(self):  #yay for update...
 		if self.state > 0:

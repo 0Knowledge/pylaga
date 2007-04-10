@@ -161,6 +161,7 @@ class HealthBar(pygame.sprite.Sprite):
 	
 	
 #####################
+#i hate this part and need to get rid of it
 global points
 points=Points()
 globalvars.side_panel.add(points)

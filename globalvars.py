@@ -49,8 +49,7 @@ xmin = left_boarder
 #basically all the objects in the game reside in their own special array
 #and then all one needs to do is go through these arrays and call functions
 #and stuff. it makes sense in here *points to brain*
-global player_list, side_panel
-player_list=pygame.sprite.RenderUpdates()
+global side_panel
 side_panel= pygame.sprite.RenderUpdates()
 #bullet's initial speed 'n shape
 global BULLET_SPEED, BULLET_WIDTH

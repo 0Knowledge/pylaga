@@ -29,8 +29,8 @@ class Bullet(pygame.sprite.Sprite):
 	def set_pos(self, tempx,tempy):
 		self.rect.move_ip(tempx,tempy)
 		
-	def set_hit(self):
-		self.health-=1
+	def set_hit(self,h=1):
+		self.health-=h
 		
 	def set_speed(self, speed):
 		self.bspeed=speed

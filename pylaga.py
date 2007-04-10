@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-#Galaga VERSION .05!
-#!/usr/bin/env python
+#Galaga VERSION .12!
 #2007-04-1 RJ Marsan
 #Pylaga
 #Original: 2007-02-20 Derek Mcdonald 

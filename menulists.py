@@ -36,6 +36,7 @@ class MenuLists:
                                         menu.disp_help()
                                 if selection == 3:
                                         sys.exit(0)
+			menu.render()
 			globalvars.clock.tick(globalvars.FPS)
 		self.clear_screen()
 		pygame.mouse.set_visible(0)
@@ -58,6 +59,7 @@ class MenuLists:
                                         menu.disp_help()
                                 if selection == 3:
                                         return False
+			menu.render()
 			globalvars.clock.tick(globalvars.FPS)
 		self.clear_screen()
 		pygame.mouse.set_visible(0)
@@ -68,7 +70,7 @@ class MenuLists:
                 self.clear_screen()
                 pygame.mouse.set_visible(1)
 		pygame.event.set_grab(0)
-		menu=Menu(("Resume","About","Help","Exit"))
+		menu=Menu(("Resume","About","Help","Exit"),globalvars.logo)
 		selection=-1
 		while True:
 			events=pygame.event.get()
@@ -82,6 +84,7 @@ class MenuLists:
                                         menu.disp_help()
                                 if selection == 3:
                                         sys.exit(0)
+			menu.render()
 			globalvars.clock.tick(globalvars.FPS)
 		self.clear_screen()
 		pygame.mouse.set_visible(0)

@@ -17,92 +17,154 @@ import globalvars
 #a generic menu class
 #very effective
 class Menu:
-    def __init__(self, menuitems):
-        self.font_size=45 #these do fairly obvious things
-	self.offset_x=100
-	self.offset_y=200
-        self.spacing=10
-        self.selection=0
-        self.font = pygame.font.Font(globalvars.defaultfont,self.font_size)
-        self.menuimgs=[]
-        self.menurects=[]
-        x=0
-        for menuitem in menuitems:    #render all the strings that were inputted
-            menuimg=self.font.render(menuitem, 1, globalvars.menucolor)
-            menurect=menuimg.get_rect()
-            if not self.menuimgs:
-                menurect.move_ip(self.offset_x,self.offset_y)
-            else:
-                menurect.move_ip(self.offset_x,self.menurects[x-1].bottom+self.spacing)
-            self.menuimgs.append(menuimg)
-            self.menurects.append(menurect) 
-            x+=1
+	def __init__(self, menuitems,logo=globalvars.logo,fadein=True, selector=globalvars.playership[0]):
+		self.menusurface=pygame.Surface((globalvars.WIN_RESX,globalvars.WIN_RESY))
+		self.menusurfacerect=self.menusurface.get_rect()
+		self.font_size=45 #these do fairly obvious things
+		self.font = pygame.font.Font(globalvars.defaultfont,self.font_size)
+		self.offset_x=100
+		self.offset_y=200
+		self.spacing=10
+		self.selection=0
+		if fadein:
+			self.fadein=30
+		else:
+			self.fadein=255
+		self.fadeinmax=255
+		self.fadeinspeed=10
+		self.allobjects=[]
+		self.logo=logo
+		self.logorect=self.logo.get_rect()
+		self.selector=selector
+		self.allobjects.append(self.logorect)
+		self.menuitems=menuitems
+		self.disp_menu(menuitems)
+		
+		
+	def disp_menu(self,menuitems):
+		self.menuimgs=[]
+		self.menurects=[]
+		x=0
+		for menuitem in menuitems:    #render all the strings that were inputted
+			menuimg=self.font.render(menuitem, 1, globalvars.menucolor, globalvars.bgcolor)
+			menurect=menuimg.get_rect()
+			if not self.menuimgs:
+				menurect.topleft=(self.offset_x,self.offset_y)
+				#print "The first menurect is at %s"%menurect
+			else:
+				menurect.topleft=(self.offset_x,self.menurects[x-1].bottom+self.spacing)
+				#print "The next  menurect is at %s"%menurect
 
-	self.menurect=pygame.Rect(self.menurects[0].topleft,self.menurects[len(self.menurects)-1].bottomright)
-	self.selectedrect=pygame.Rect(self.menurect.left-60,self.menurect.top,50,self.menurect.height)
-	self.selectedimg=pygame.Surface(self.selectedrect.size)
-	self.shipimg=pygame.transform.rotate(globalvars.playership[0],-90)
-	self.move=self.menurects[0].height+self.spacing
-	self.selectedimg.blit(self.shipimg,pygame.Rect(0,self.selection*self.move,50,50))
-	x=0
-	for menuimg in self.menuimgs:   #draw all the images to the display
-            globalvars.surface.blit(menuimg,self.menurects[x])
-            x+=1
-	globalvars.surface.blit(self.selectedimg,self.selectedrect)
-	globalvars.surface.blit(globalvars.logo,globalvars.logo.get_rect())
-	pygame.display.flip()
+			self.menuimgs.append(menuimg)
+			self.menurects.append(menurect) 
+			self.allobjects.append(menurect)
+			x+=1
+		
+		self.menurect=pygame.Rect(self.menurects[0].topleft,self.menurects[len(self.menurects)-1].bottomright)
+		self.selectedrect=pygame.Rect(self.menurect.left-60,self.menurect.top,50,self.menurect.height)
+		self.allobjects.append(self.selectedrect)
+		self.selectedimg=pygame.Surface(self.selectedrect.size)
+		self.shipimg=pygame.transform.rotate(self.selector,-90)
+		self.move=self.menurects[0].height+self.spacing
+		self.selectedimg.blit(self.shipimg,pygame.Rect(0,self.selection*self.move,50,50))
+		x=0
+		for menuimg in self.menuimgs:   #draw all the images to the display
+			self.menusurface.blit(menuimg,self.menurects[x])
+			x+=1
+		self.menusurface.blit(self.selectedimg,self.selectedrect)
+		self.menusurface.blit(self.logo,self.logorect)
+		#globalvars.surface.blit(self.menusurface,self.menusurfacerect)
 
-    #generic selection changing class, not really used by outside
-    #unless they know what they're doing
-    def change_selection(self,selection):
-        self.selectedimg.fill(globalvars.bgcolor)
-        self.selectedimg.blit(self.shipimg,pygame.Rect(0,selection*self.move,50,50))
-        globalvars.surface.blit(self.selectedimg,self.selectedrect)
-        pygame.display.update(self.selectedrect)
-
-     #simple methods to move selction up or down
-    def change_selection_up(self):
-        if self.selection >0:
-            self.selection-=1
-        self.change_selection(self.selection)
-
-    def change_selection_down(self):
-        if self.selection <len(self.menurects):
-            self.selection+=1
-        self.change_selection(self.selection)
-
-    #a mouse oritened change_selection
-    def change_selection_pos(self, pos):
-        changed=False
-        x=0
-        for menuitem in self.menurects:
-            if menuitem.collidepoint(pos):
-                if self.selection!=x:
-                    self.selection=x
-                    changed=True
-            x+=1
-        if changed:
-            self.change_selection(self.selection)
-
-    #useful so that a random mouseclick doesnt do anything
-    def mouse_is_anywhere(self,pos):
-        for menuitem in self.menurects:
-            if menuitem.collidepoint(pos):
-                return True
-        return False
-
-    #returns selection (duh)
-    def get_selection(self):
-        return self.selection
-
-#i'll do these later
-    
-    def disp_about(self):
-        return
-
-    def disp_help(self):
-        return
-    
-        
+		#pygame.display.flip()
 	
-    
+	#generic selection changing class, not really used by outside
+	#unless they know what they're doing
+	def change_selection(self,selection):
+		self.selectedimg.fill(globalvars.bgcolor)
+		self.selectedimg.blit(self.shipimg,pygame.Rect(0,selection*self.move,50,50))
+		self.menusurface.blit(self.selectedimg,self.selectedrect)
+		globalvars.surface.blit(self.menusurface,self.menusurfacerect)
+
+		pygame.display.update(self.selectedrect)
+	
+	#simple methods to move selction up or down
+	def change_selection_up(self):
+		if self.selection >0:
+			self.selection-=1
+			self.change_selection(self.selection)
+		
+	def change_selection_down(self):
+		if self.selection <len(self.menurects):
+			self.selection+=1
+			self.change_selection(self.selection)
+		
+	#a mouse oritened change_selection
+	def change_selection_pos(self, pos):
+		changed=False
+		x=0
+		for menuitem in self.menurects:
+			if menuitem.collidepoint(pos):
+				if self.selection!=x:
+					self.selection=x
+					changed=True
+			x+=1
+		if changed:
+			self.change_selection(self.selection)
+	
+	#useful so that a random mouseclick doesnt do anything
+	def mouse_is_anywhere(self,pos):
+		for menuitem in self.menurects:
+			if menuitem.collidepoint(pos):
+				return True
+		return False
+	
+	#returns selection (duh)
+	def get_selection(self):
+		return self.selection
+	
+	#i'll do these later
+	
+	def disp_about(self):
+		#self.renderstr("This is a simple python game\nits a space shooter.\nWritten By: RJ Marsan\nOriginal: Derek Mcdonald",25)
+		return
+	def disp_help(self):
+		return
+	
+	def renderstr(self,string,size):
+		menuitems=string.split('\n')
+		font=pygame.font.Font(globalvars.defaultfont,size)
+		self.smenuimgs=[]
+		self.smenurects=[]
+		x=0
+		for menuitem in menuitems:    #render all the strings that were inputted
+			#print menuitem
+			menuimg=font.render(menuitem, 1, globalvars.menucolor, globalvars.bgcolor)
+			menurect=menuimg.get_rect()
+			if not self.smenuimgs:
+				menurect.topleft=(self.offset_x+10,self.offset_y)
+				#print "The first menurect is at %s"%menurect
+			else:
+				menurect.topleft=(self.offset_x+10,self.smenurects[x-1].bottom+1)
+				#print "The next  menurect is at %s"%menurect
+
+			self.smenuimgs.append(menuimg)
+			self.smenurects.append(menurect) 
+			#allobjects.append(menurect)
+			x+=1
+		x=0
+		for menuimg in self.smenuimgs:   #draw all the images to the display
+			self.menusurface.blit(menuimg,self.smenurects[x])
+			x+=1
+		pygame.display.flip()
+	
+	def render(self):
+		if self.fadein < self.fadeinmax:
+			self.menusurface.set_alpha(self.fadein,pygame.RLEACCEL)
+			globalvars.surface.blit(self.menusurface,self.menusurfacerect)
+			#pygame.display.update(self.allobjects)
+			pygame.display.flip()
+			
+			
+		return
+	
+	

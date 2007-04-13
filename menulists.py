@@ -67,7 +67,7 @@ class MenuLists:
 
 
 	def pause_menu(self):
-                self.clear_screen()
+                #self.clear_screen()
                 pygame.mouse.set_visible(1)
 		pygame.event.set_grab(0)
 		menu=Menu(("Resume","About","Help","Exit"),globalvars.logo)

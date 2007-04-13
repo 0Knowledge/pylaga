@@ -31,7 +31,7 @@ class Menu:
 		else:
 			self.fadein=255
 		self.fadeinmax=255
-		self.fadeinspeed=10
+		self.fadeinspeed=5
 		self.allobjects=[]
 		self.logo=logo
 		self.logorect=self.logo.get_rect()
@@ -163,6 +163,7 @@ class Menu:
 			globalvars.surface.blit(self.menusurface,self.menusurfacerect)
 			#pygame.display.update(self.allobjects)
 			pygame.display.flip()
+			#self.fadein+=self.fadeinspeed
 			
 			
 		return

@@ -63,7 +63,7 @@ init_enemy_speed=3
 global enemy_spacing_x, enemy_spacing_y, enemy_bullet_odds
 enemy_spacing_x=15
 enemy_spacing_y=10
-enemy_bullet_odds=15
+enemy_bullet_odds=100
 #size of the bitmap...  GET RID OF THESE
 global enemy_width, enemy_height
 enemy_width=30
@@ -113,6 +113,9 @@ defaultfont="freesansbold.ttf"
 window = pygame.display.set_mode ((WIN_RESX, WIN_RESY))
 pygame.display.set_caption(VERSION)
 surface = pygame.display.get_surface()
+#surface = pygame.Surface((WIN_RESX,WIN_RESY))    ....ignore
+#surfacerect = surface.get_rect()
+
 
 def load_file(filename):
     try:

@@ -37,15 +37,19 @@ class Gamelolz:
 	def __init__(self,parent):  
 		self.parent=parent        
 		globalvars.asdf = 0
+		##some key vars, the works
 		self.lagcount=0		
 		self.leftkeydown=0
 		self.rightkeydown=0
+		#make the rectlist to handle dirty updating
 		self.enemylist=[]
+		##make the lists to handle various sprites
 		self.list_enemys=EnemyManager()
 		self.player_list=pygame.sprite.RenderUpdates()
 		self.list_allie_shots=pygame.sprite.RenderUpdates()
 		self.enemy_shots=pygame.sprite.RenderUpdates()
-		self.stage=Stage(self.list_enemys,self.player_list)
+		##make a new stage object
+		self.stage=Stage(self.list_enemys,self.player_list,self.enemy_shots)
 		
 	#clears all the variables
 	def clear_vars(self):
@@ -73,21 +77,6 @@ class Gamelolz:
 		self.list_enemys.clear(globalvars.surface, globalvars.screen)
 		self.enemylist+=self.list_enemys.draw(globalvars.surface)
 	
-	#draws all the enemys you ask it
-	def draw_enemys(self):
-		#k so now some recursive loops:
-		for enemycol in range(self.stage.get_stage()[0]):	
-			#now for the rows
-			for enemyrow in range(self.stage.get_stage()[1]):
-				#make a new enemy object:
-				tempenemy=Enemy(self.list_enemys,Gun(self.enemy_shots,EnemyBullet))
-				#this ones a long one, but it works:
-				tempenemy.set_pos(globalvars.xmin+enemycol*(globalvars.enemy_width+globalvars.enemy_spacing_x),globalvars.ymin+enemyrow*(globalvars.enemy_height+globalvars.enemy_spacing_y)-150)
-				#this one is even worse, but works even better:
-				tempenemy.set_range(globalvars.xmin+enemycol*(globalvars.enemy_width+globalvars.enemy_spacing_x),globalvars.xmax-(self.stage.get_stage()[0]-enemycol)*(globalvars.enemy_height+globalvars.enemy_spacing_x))                                                                                                     
-				#now add the temp enemy to the array and we're good to go
-				self.list_enemys.add(tempenemy)
-	
 	
 				
 	#So i'm trying out having the program check for collisions, instead of the enemy objects
@@ -101,7 +90,7 @@ class Gamelolz:
 			self.list_allie_shots.remove(bullet)
 			enemy.hit(1)
 			points.add_points(1)
-		if pygame.sprite.spritecollideany(self.player, self.enemy_shots):
+		if pygame.sprite.spritecollide(self.player, self.enemy_shots,1):
 			#print "ZOMFG SHOTZORZ"
 			self.player.set_hit()
 			health.hit()
@@ -110,25 +99,11 @@ class Gamelolz:
 	def check_done(self):
 		if not globalvars.asdf%20 and not self.list_enemys:
 			self.stage.next_stage()
-			self.draw_enemys()
 	
 	#checks to see if we can expand the ranges of the bots so its nice and.... umm... nice.
 	def check_rows(self):
 		if globalvars.asdf % 20==0:
-			#simple sorting algorithm to find the highest values
-			highest=globalvars.xmin
-			lowest=globalvars.xmax
-			for enemy in self.list_enemys:
-				if enemy.get_range()[1] > highest:
-					highest=enemy.get_range()[1]
-				if enemy.get_range()[0] < lowest:
-					lowest=enemy.get_range()[0]
-			highest=globalvars.xmax-highest
-			lowest=lowest-globalvars.xmin
-			if highest != 0 or lowest != 0: #makes things |--| this much more efficient
-				for enemy in self.list_enemys:
-					erange=enemy.get_range()
-					enemy.set_range(erange[0]-lowest,erange[1]+highest)
+			self.list_enemys.check_enemy_rows()
 					
         #major hack just to get this thing playable..... sorry
 	def again(self):
@@ -174,7 +149,7 @@ class Gamelolz:
 		self.test_collision()
 		self.check_rows()
 		bgstars.update()
-		self.list_enemys.shoot()
+		self.list_enemys.shoot(self.stage.enemyodds)
 		self.player.update()
 	
 	def draw(self):
@@ -200,7 +175,7 @@ class Gamelolz:
 	def input(self, events):
 		global x
 		global y
-		pygame.event.pump()  #somewhere in their docs it said this line was a good idea
+		#pygame.event.pump()  #somewhere in their docs it said this line was a good idea
 		for event in events:
 			if event.type == QUIT:
 				sys.exit(0)
@@ -236,7 +211,7 @@ class Gamelolz:
 				if event.key == pygame.K_RIGHT:
 					self.rightkeydown=1
 				if event.key == pygame.K_SPACE:
-					self.pshoot(self.player.rect.centerx-globalvars.BULLET_WIDTH/2,globalvars.y)
+					self.pshoot()
 
 			
 			#keyboard controls
@@ -287,6 +262,8 @@ class Gamelolz:
 			self.input(pygame.event.get())
 		
 			#applies the smart screen updating
+			#globalvars.surface.set_alpha(150,pygame.RLEACCEL)       ......dont ask why
+			#globalvars.surface2.blit(globalvars.surface,globalvars.surfacerect)
 			pygame.display.update(self.enemylist)
 			self.enemylist=[]
 			

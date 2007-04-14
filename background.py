@@ -22,15 +22,13 @@ class BackgroundManager(pygame.sprite.Sprite):
 			self.add_star()
 	
 	def update(self):
-		#self.last_stars = [pygame.Rect(st) for st in self.stars if st.top <= globalvars.WIN_RESY] ##ugh thanks guy online, this saved me
-		
 		for counter,star in enumerate(self.stars):
 			if star.top > globalvars.WIN_RESY:
 				del self.stars[counter]
 				del self.last_stars[counter]
 				self.add_star()
 			else:
-				self.last_stars[counter].topleft=star.topleft
+				self.last_stars[counter].top=star.top
 				star.top+=star.speed
 				#print "%s %s"%(star,self.last_stars[counter])
 		

@@ -23,8 +23,8 @@ class EnemyManager(pygame.sprite.RenderUpdates):
 		self.transition_speed=5
 		self.transition_time=150/self.transition_speed
 		self.current_transition=0
-	def shoot(self):
-		self.asdf=random.randint(0,globalvars.enemy_bullet_odds)
+	def shoot(self,odds):
+		self.asdf=random.randint(0,odds)
 		if self.asdf < len(self):
 			self.sprites()[self.asdf].shoot()
 	
@@ -36,6 +36,22 @@ class EnemyManager(pygame.sprite.RenderUpdates):
 		else:
 			for e in self:
 				e.update(0)
+				
+	def check_enemy_rows(self):
+		#simple sorting algorithm to find the highest values
+			highest=globalvars.xmin
+			lowest=globalvars.xmax
+			for enemy in self:
+				if enemy.get_range()[1] > highest:
+					highest=enemy.get_range()[1]
+				if enemy.get_range()[0] < lowest:
+					lowest=enemy.get_range()[0]
+			highest=globalvars.xmax-highest
+			lowest=lowest-globalvars.xmin
+			if highest != 0 or lowest != 0: #makes things |--| this much more efficient
+				for enemy in self:
+					erange=enemy.get_range()
+					enemy.set_range(erange[0]-lowest,erange[1]+highest)
 
 #################
 #origional program had a few boring enemy lines, so i made it an object, cuz objects are cool

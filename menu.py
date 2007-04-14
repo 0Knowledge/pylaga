@@ -6,7 +6,7 @@
 #
 #	The Menu.
 #
-#       Its a generic menu object, it takes 1 parameter, and thats an array of strings to display
+#       Its a generic menu object, it takes 1 parameter (or more but they are optional), and thats an array of strings to display
 #
 #
 #import pygame os and sys libraries
@@ -27,7 +27,7 @@ class Menu:
 		self.spacing=10
 		self.selection=0
 		if fadein:
-			self.fadein=30
+			self.fadein=10
 		else:
 			self.fadein=255
 		self.fadeinmax=255
@@ -64,12 +64,14 @@ class Menu:
 		self.selectedrect=pygame.Rect(self.menurect.left-60,self.menurect.top,50,self.menurect.height)
 		self.allobjects.append(self.selectedrect)
 		self.selectedimg=pygame.Surface(self.selectedrect.size)
+		self.selectedimgrect=self.selectedimg.get_rect()
 		self.shipimg=pygame.transform.rotate(self.selector,-90)
 		self.move=self.menurects[0].height+self.spacing
 		self.selectedimg.blit(self.shipimg,pygame.Rect(0,self.selection*self.move,50,50))
 		x=0
 		for menuimg in self.menuimgs:   #draw all the images to the display
 			self.menusurface.blit(menuimg,self.menurects[x])
+			#print "Displaying menu item at %s"%self.menurects[x]
 			x+=1
 		self.menusurface.blit(self.selectedimg,self.selectedrect)
 		self.menusurface.blit(self.logo,self.logorect)
@@ -94,7 +96,7 @@ class Menu:
 			self.change_selection(self.selection)
 		
 	def change_selection_down(self):
-		if self.selection <len(self.menurects):
+		if self.selection < len(self.menuimgs)-1:
 			self.selection+=1
 			self.change_selection(self.selection)
 		
@@ -110,6 +112,10 @@ class Menu:
 			x+=1
 		if changed:
 			self.change_selection(self.selection)
+			
+		#just for shits and giggles:
+		#self.selectedimgrect.topleft=pos
+		#self.menusurface.blit(self.shipimg,self.selectedimgrect)
 	
 	#useful so that a random mouseclick doesnt do anything
 	def mouse_is_anywhere(self,pos):
@@ -152,6 +158,7 @@ class Menu:
 			#allobjects.append(menurect)
 			x+=1
 		x=0
+		self.menusurface.blit(globalvars.screen,self.menurect)
 		for menuimg in self.smenuimgs:   #draw all the images to the display
 			self.menusurface.blit(menuimg,self.smenurects[x])
 			x+=1
@@ -163,7 +170,7 @@ class Menu:
 			globalvars.surface.blit(self.menusurface,self.menusurfacerect)
 			#pygame.display.update(self.allobjects)
 			pygame.display.flip()
-			#self.fadein+=self.fadeinspeed
+			self.fadein+=self.fadeinspeed
 			
 			
 		return

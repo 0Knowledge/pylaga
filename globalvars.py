@@ -19,7 +19,7 @@ import pygame, os, sys, math, random
 #wow i really dont know what most of these do anymore
 #note to self: clean this shit up
 global VERSION
-VERSION="Pylaga .12"
+VERSION="Pylaga .13"
 global DATADIR
 DATADIR="data/"
 global FPS

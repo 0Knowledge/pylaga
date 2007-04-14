@@ -13,8 +13,9 @@
 import pygame, os, sys, math, random
 import globalvars
 from enemy import Enemy
-from bullet import EnemyBullet, Bullet
-from gun import Gun
+from bullet import *
+from gun import *
+from menulists import MenuLists,menulists
 
 #####################
 ##turns out makin the stages be a class was a really good idea. makes it SOO much easier.
@@ -22,22 +23,30 @@ class Stage:
 	enemy_stages=[(5,2),(6,3),(7,4),(8,4),(9,4)]
 	current_stage=0
 	
-	def __init__(self,enemymanager,playermanager,enemybulletmanager):
+	def __init__(self,enemymanager,playermanager,enemybulletmanager,playerbulletmanager):
 		self.enemymanager=enemymanager
 		self.playermanager=playermanager
 		self.enemybulletmanager=enemybulletmanager
 		self.enemyodds=globalvars.enemy_bullet_odds
+		self.playerbulletmanager=playerbulletmanager
 	
 	def add_stage(self, x,y):
 		self.enemy_stages.append((x,y))
 	
 	def next_stage(self):
+		
 		if len(self.enemy_stages) > self.current_stage+1:
 			self.current_stage+=1
+		#if self.current_stage!=0:
+			#menulists.buy_menu(( ("!Buy A","print 'buy'"),("!Buy Somethin","print 'buysomethinelse'"),("SomethinElse","print 'asdf'"),("Back","goagain=False")))
+			
 		if self.enemyodds > 15:
 			self.enemyodds-=15
 		self.enemymanager.current_transition=0
 		self.draw_enemys()
+		
+		for player in self.playermanager:
+			player.gun=ParabolaGun(self.playerbulletmanager,WeirdFuckinBullet)
 	
 	def set_stage(self, stage):
 		self.current_stage=stage

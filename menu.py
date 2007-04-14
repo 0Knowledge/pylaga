@@ -16,11 +16,13 @@ import globalvars
 ##takes a tuple of menuitem strings as input
 #a generic menu class
 #very effective
+#not very powerful
+#a string starting with "!" is not selectable
 class Menu:
-	def __init__(self, menuitems,logo=globalvars.logo,fadein=True, selector=globalvars.playership[0]):
+	def __init__(self, menuitems,fontsize=45,logo=globalvars.logo,fadein=True, selector=globalvars.playership[0]):
 		self.menusurface=pygame.Surface((globalvars.WIN_RESX,globalvars.WIN_RESY))
 		self.menusurfacerect=self.menusurface.get_rect()
-		self.font_size=45 #these do fairly obvious things
+		self.font_size=fontsize #these do fairly obvious things
 		self.font = pygame.font.Font(globalvars.defaultfont,self.font_size)
 		self.offset_x=100
 		self.offset_y=200
@@ -44,9 +46,13 @@ class Menu:
 	def disp_menu(self,menuitems):
 		self.menuimgs=[]
 		self.menurects=[]
+		self.selectionlist=[]
 		x=0
 		for menuitem in menuitems:    #render all the strings that were inputted
-			menuimg=self.font.render(menuitem, 1, globalvars.menucolor, globalvars.bgcolor)
+			if menuitem.startswith("!"):
+				menuimg=self.font.render(menuitem[1:], 1, globalvars.menucolor, globalvars.bgcolor)
+			else:
+				menuimg=self.font.render(menuitem, 1, globalvars.menucolor, globalvars.bgcolor)
 			menurect=menuimg.get_rect()
 			if not self.menuimgs:
 				menurect.topleft=(self.offset_x,self.offset_y)
@@ -54,7 +60,8 @@ class Menu:
 			else:
 				menurect.topleft=(self.offset_x,self.menurects[x-1].bottom+self.spacing)
 				#print "The next  menurect is at %s"%menurect
-
+			if not menuitem.startswith("!"):
+				self.selectionlist.append(menurect.top-self.offset_y)
 			self.menuimgs.append(menuimg)
 			self.menurects.append(menurect) 
 			self.allobjects.append(menurect)
@@ -67,7 +74,7 @@ class Menu:
 		self.selectedimgrect=self.selectedimg.get_rect()
 		self.shipimg=pygame.transform.rotate(self.selector,-90)
 		self.move=self.menurects[0].height+self.spacing
-		self.selectedimg.blit(self.shipimg,pygame.Rect(0,self.selection*self.move,50,50))
+		self.change_selection(self.selection)
 		x=0
 		for menuimg in self.menuimgs:   #draw all the images to the display
 			self.menusurface.blit(menuimg,self.menurects[x])
@@ -82,8 +89,14 @@ class Menu:
 	#generic selection changing class, not really used by outside
 	#unless they know what they're doing
 	def change_selection(self,selection):
+		try:
+			y=self.selectionlist[selection]
+		except:
+			print "BAD SELECTION"
+			y=-50
 		self.selectedimg.fill(globalvars.bgcolor)
-		self.selectedimg.blit(self.shipimg,pygame.Rect(0,selection*self.move,50,50))
+		self.selectedimg.blit(self.shipimg,pygame.Rect(0,y,50,50))
+		#self.menusurface.blit(self.shipimg,pygame.Rect(self.selectedrect.left,self.selectionlist[selection],50,50))
 		self.menusurface.blit(self.selectedimg,self.selectedrect)
 		globalvars.surface.blit(self.menusurface,self.menusurfacerect)
 
@@ -96,7 +109,7 @@ class Menu:
 			self.change_selection(self.selection)
 		
 	def change_selection_down(self):
-		if self.selection < len(self.menuimgs)-1:
+		if self.selection < len(self.selectionlist)-1:
 			self.selection+=1
 			self.change_selection(self.selection)
 		
@@ -126,14 +139,15 @@ class Menu:
 	
 	#returns selection (duh)
 	def get_selection(self):
-		return self.selection
+		return self.selection+(len(self.menurects)-len(self.selectionlist))
 	
 	#i'll do these later
 	
-	def disp_about(self):
+	def disp_special(self,menufunction):
+		#print "displaying about"
 		#self.renderstr("This is a simple python game\nits a space shooter.\nWritten By: RJ Marsan\nOriginal: Derek Mcdonald",25)
-		return
-	def disp_help(self):
+		menufunction()
+		self.rerender()
 		return
 	
 	def renderstr(self,string,size):
@@ -175,4 +189,7 @@ class Menu:
 			
 		return
 	
+	def rerender(self):
+		globalvars.surface.blit(self.menusurface,self.menusurfacerect)
+		pygame.display.flip()
 	

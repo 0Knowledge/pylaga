@@ -31,9 +31,9 @@ class MenuLists:
                                 if selection == 0:
                                         break
                                 if selection == 1:
-                                        menu.disp_about()
+                                        menu.disp_special(self.about_menu)
                                 if selection == 2:
-                                        menu.disp_help()
+                                        menu.disp_special(self.help_menu)
                                 if selection == 3:
                                         sys.exit(0)
 			menu.render()
@@ -54,9 +54,9 @@ class MenuLists:
                                 if selection == 0:
                                         break
                                 if selection == 1:
-                                        menu.disp_about()
+                                        menu.disp_special(self.about_menu)
                                 if selection == 2:
-                                        menu.disp_help()
+                                        menu.disp_special(self.help_menu)
                                 if selection == 3:
                                         return False
 			menu.render()
@@ -70,7 +70,7 @@ class MenuLists:
                 #self.clear_screen()
                 pygame.mouse.set_visible(1)
 		pygame.event.set_grab(0)
-		menu=Menu(("Resume","About","Help","Exit"),globalvars.logo)
+		menu=Menu(("Resume","About","Help","Exit"),45,globalvars.logo)
 		selection=-1
 		while True:
 			events=pygame.event.get()
@@ -79,11 +79,59 @@ class MenuLists:
                                 if selection == 0:
                                         break
                                 if selection == 1:
-                                        menu.disp_about()
+                                        menu.disp_special(self.about_menu)
                                 if selection == 2:
-                                        menu.disp_help()
+                                        menu.disp_special(self.help_menu)
                                 if selection == 3:
                                         sys.exit(0)
+			menu.render()
+			globalvars.clock.tick(globalvars.FPS)
+		self.clear_screen()
+		pygame.mouse.set_visible(0)
+		pygame.event.set_grab(1)
+		
+	def special_menu(self,menuarray):
+		#self.clear_screen()
+                pygame.mouse.set_visible(1)
+		pygame.event.set_grab(0)
+		menu=Menu(menuarray,30,globalvars.logo)
+		selection=-1
+		while True:
+			events=pygame.event.get()
+			selection=self.menu_action(events,menu)
+			if selection >= 0:
+                                if selection == len(menuarray)-1:
+                                        break
+			menu.render()
+			globalvars.clock.tick(globalvars.FPS)
+		self.clear_screen()
+		pygame.mouse.set_visible(0)
+		pygame.event.set_grab(1)
+		
+	def about_menu(self):
+		self.special_menu(("!This is a small galaga clone written in Python","!Written By:","!RJ Marsan","!Original:","!Derek Mcdonald","!Version: %s"%globalvars.VERSION,"!","Back"))
+	
+	def help_menu(self):
+		self.special_menu(("!Help:","!     Left: Left Arrow or Mouse","!     Right: Right Arrow or Mouse","!     Shoot: Space or Mouse Left","!     Pause: p","!     Exit: q or esc","!","Back"))
+		
+	def buy_menu(self,menulist):
+                #self.clear_screen()
+                pygame.mouse.set_visible(1)
+		pygame.event.set_grab(0)
+		menuarry=[]
+		execarry=[]
+		for (a,b) in menulist:
+			menuarry.append(a)
+			execarry.append(b)
+		menu=Menu(menuarry,30,globalvars.logo)
+		selection=-1
+		goagain=True
+		while goagain:
+			events=pygame.event.get()
+			selection=self.menu_action(events,menu)
+			if selection >= 0:
+				exec execarry[selection]
+
 			menu.render()
 			globalvars.clock.tick(globalvars.FPS)
 		self.clear_screen()

@@ -49,7 +49,7 @@ class Gamelolz:
 		self.list_allie_shots=pygame.sprite.RenderUpdates()
 		self.enemy_shots=pygame.sprite.RenderUpdates()
 		##make a new stage object
-		self.stage=Stage(self.list_enemys,self.player_list,self.enemy_shots)
+		self.stage=Stage(self.list_enemys,self.player_list,self.enemy_shots,self.list_allie_shots)
 		
 	#clears all the variables
 	def clear_vars(self):

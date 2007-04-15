@@ -40,7 +40,7 @@ class Menu:
 		self.selector=selector
 		self.allobjects.append(self.logorect)
 		self.menuitems=menuitems
-		self.disp_menu(menuitems)
+		self.disp_menu(self.menuitems)
 		
 		
 	def disp_menu(self,menuitems):
@@ -95,8 +95,14 @@ class Menu:
 		try:
 			y=self.selectionlist[selection]
 		except:
-			print "BAD SELECTION"
-			y=-50
+			#print "BAD SELECTION"
+			#If we can't find anything to select, just choose the first one we can
+			try:
+				y=self.selectionlist[0]
+				self.selection=0
+			except:
+				print "I give up, not displaying an image"
+				y=-50
 		self.selectedimg.fill(globalvars.bgcolor)
 		self.selectedimg.blit(self.shipimg,pygame.Rect(0,y,50,50))
 		#self.menusurface.blit(self.shipimg,pygame.Rect(self.selectedrect.left,self.selectionlist[selection],50,50))
@@ -122,9 +128,10 @@ class Menu:
 		x=0
 		for menuitem in self.menurects:
 			if menuitem.collidepoint(pos):
-				if self.selection!=x:
-					self.selection=x
-					changed=True
+				if not self.menuitems[x].startswith("!"):
+					if self.selection!=x:
+						self.selection=x
+						changed=True
 			x+=1
 		if changed:
 			self.change_selection(self.selection)

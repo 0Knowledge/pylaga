@@ -92,9 +92,6 @@ class MenuLists:
 	#This one is different from teh above 3
 	#it is a wrapper for a submenu thats just text and a back command
 	def special_menu(self,menuarray):
-		#self.clear_screen()
-                pygame.mouse.set_visible(1)
-		pygame.event.set_grab(0)
 		menu=Menu(menuarray,30,globalvars.logo)
 		selection=-1
 		while True:
@@ -106,8 +103,6 @@ class MenuLists:
 			menu.render()
 			globalvars.clock.tick(globalvars.FPS)
 		self.clear_screen()
-		pygame.mouse.set_visible(0)
-		pygame.event.set_grab(1)
 		
 	def about_menu(self):
 		self.special_menu(("!This is a small galaga clone written in Python","!Written By:","!RJ Marsan","!Original:","!Derek Mcdonald","!Version: %s"%globalvars.VERSION,"!","Back"))

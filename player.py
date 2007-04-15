@@ -11,12 +11,13 @@
 #
 #import pygame os and sys libraries
 import pygame, os, sys, math, random
-from globalvars import playership,explosion_speed,gamewindow
+from globalvars import playership,explosion_speed,gamewindow,max_health
 from bullet import Bullet
 
 ################
 #origional program had a few boring player lines, so i made it an object, cuz objects are cool
 class Player(pygame.sprite.Sprite):
+	health=max_health
 	
 	def __init__(self,parent,gun):
 		pygame.sprite.Sprite.__init__(self) #call Sprite initializer
@@ -51,8 +52,9 @@ class Player(pygame.sprite.Sprite):
 	def set_pos(self, tempx,tempy):
 		self.rect.move_ip(tempx,tempy)
 	
-	def set_hit(self):
+	def set_hit(self,health):
 		self.state=1
+		self.health-=health
 		
 	def shoot(self):
 		self.gun.shoot(self.rect)

@@ -57,7 +57,7 @@ class pylaga:
 		
 		self.menu.init_menu()
 		self.game.start()
-		while self.menu.exit_menu():
+		while self.menu.exit_menu(self.game.points):
 			self.game.start()
 		
 

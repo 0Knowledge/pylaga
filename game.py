@@ -50,17 +50,25 @@ class Gamelolz:
 		self.enemy_shots=pygame.sprite.RenderUpdates()
 		##make a new stage object
 		self.stage=Stage(self.list_enemys,self.player_list,self.enemy_shots,self.list_allie_shots)
+		self.new_display()
+	
+	def new_display(self):
+		self.side_panel= pygame.sprite.RenderUpdates()
+		self.points=Points()
+		self.side_panel.add(self.points)
+		self.health=Health()
+		self.healthbar=HealthBar(self.health)
+		self.side_panel.add(self.healthbar)
+		self.side_panel.add(self.health)
 		
 	#clears all the variables
 	def clear_vars(self):
 		self.leftkeydown=0
 		self.rightkeydown=0
-		health.set_health(globalvars.max_health)
-		points.set_points(0)
+		self.points.set_points(0)
 		globalvars.x=400
 		globalvars.y=globalvars.WIN_RESY-60
 		self.stage.set_stage(-1) #hax
-		globalvars.enemy_bullet_odds=100
 		self.list_enemys.empty()
 		self.list_allie_shots.empty()
 		self.player_list.empty()
@@ -89,11 +97,10 @@ class Gamelolz:
 		for enemy,bullet in todie.iteritems():
 			self.list_allie_shots.remove(bullet)
 			enemy.hit(1)
-			points.add_points(1)
+			self.points.add_points(1)
 		if pygame.sprite.spritecollide(self.player, self.enemy_shots,1):
 			#print "ZOMFG SHOTZORZ"
-			self.player.set_hit()
-			health.hit()
+			self.player.set_hit(1)
 	
 	#if there are no enemys left, go to the next stage
 	def check_done(self):
@@ -107,7 +114,7 @@ class Gamelolz:
 					
         #major hack just to get this thing playable..... sorry
 	def again(self):
-                if health.get_health() <= 0:
+                if self.player.health <= 0:
                         return False
                 return True
 		
@@ -128,9 +135,9 @@ class Gamelolz:
 	#...
 	def drawsidepanel(self):
 		if globalvars.asdf%5==0:
-			globalvars.side_panel.update()
-		globalvars.side_panel.clear(globalvars.surface,globalvars.screen)
-		self.enemylist+=globalvars.side_panel.draw(globalvars.surface)
+			self.side_panel.update()
+		self.side_panel.clear(globalvars.surface,globalvars.screen)
+		self.enemylist+=self.side_panel.draw(globalvars.surface)
 
 		
 	#goes through all the arrays and makes each of them move 1 space, simple and easy yet it deserves a comment...
@@ -236,6 +243,7 @@ class Gamelolz:
 		self.player=Player(self.player_list,Gun(self.list_allie_shots,Bullet))
 		self.player_list.add(self.player)
 		self.player.set_pos(globalvars.x,globalvars.y)
+		self.health.link_sprite(self.player)
 		self.loop()
 
 	#Yeah see this one does all of the work

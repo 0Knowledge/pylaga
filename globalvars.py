@@ -45,12 +45,6 @@ ymax = WIN_RESY
 xmax = WIN_RESX-right_boarder
 xmin = left_boarder
 
-#yay arrays! they make the world go round, and iderate.
-#basically all the objects in the game reside in their own special array
-#and then all one needs to do is go through these arrays and call functions
-#and stuff. it makes sense in here *points to brain*
-global side_panel
-side_panel= pygame.sprite.RenderUpdates()
 #bullet's initial speed 'n shape
 global BULLET_SPEED, BULLET_WIDTH
 BULLET_SPEED=10
@@ -96,6 +90,11 @@ global bgcolor, sidepanelcolor
 bgcolor=(0,0,0)
 sidepanelcolor=(128,128,128)
 menucolor=(128,128,128)
+
+#<scratches head and wonders what these do>
+global x,y
+x=400
+y=WIN_RESY-60
 
 #started out random, now is an important part, its the frames that have gone by
 #helps so not everything is rendered every frame

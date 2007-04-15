@@ -13,7 +13,6 @@
 import pygame, os, sys, math, random
 import globalvars
 from menu import Menu
-from display import points
 
 ##takes a tuple of menuitem strings as input
 #a generic menu class
@@ -42,10 +41,10 @@ class MenuLists:
 		pygame.mouse.set_visible(0)
 		pygame.event.set_grab(1)
 		
-	def exit_menu(self):
+	def exit_menu(self,points):
                 self.clear_screen()
                 pygame.mouse.set_visible(1)
-		menu=Menu(("Again?","About","Help","Exit","Score: %s"%points.get_points()))
+		menu=Menu(("Again?","About","Help","Exit","!Score: %s"%points.get_points()))
 		selection=-1
 		while True:
 			events=pygame.event.get()
@@ -102,7 +101,7 @@ class MenuLists:
 			events=pygame.event.get()
 			selection=self.menu_action(events,menu)
 			if selection >= 0:
-                                if selection == len(menuarray)-1:
+                                if selection == 0:
                                         break
 			menu.render()
 			globalvars.clock.tick(globalvars.FPS)

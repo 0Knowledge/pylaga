@@ -1,4 +1,4 @@
-W00t. this is a simple remake of the classic "Galaga" game, with my own touch of course, written with the pygame libs.
+W00t. this is a simple remake of the classic "Galaga" game, with my own touch of course, written with the pygame api.
 Written by: RJ Marsan
 Original Creator: Derek Mcdonald 
 Instructions: 
@@ -9,7 +9,7 @@ Other Linux:
 	Install python and pygame
 	python pylaga.py
 Windows:
-	either doubleclick galaga.py
+	either double-click galaga.py
 	Or Download the py2exe version and run pylaga.exe
 
 Maintainer:
@@ -23,8 +23,13 @@ TO DO LIST:
 * correct implementation of stage progression
 * other misc. things to make the game look purrty
 * proper transitions
+* some sort of rewards thing
 
 CHANGES:
+* Cleaned up a lot of the code
+* Added 2 guns and a bullet
+
+OLD-CHANGES:
 * Moved the game to an object called 'gamelolz'
 * Made a game manager
 * Added Keyboard support

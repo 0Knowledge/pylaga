@@ -142,7 +142,7 @@ class Menu:
 	
 	#returns selection (duh)
 	def get_selection(self):
-		return self.selection+(len(self.menurects)-len(self.selectionlist))
+		return self.selection
 	
 	#this is a rather nasty hack
 	#it calls the given function and rerenders the screen

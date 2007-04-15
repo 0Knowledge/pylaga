@@ -17,7 +17,7 @@ from display import points
 
 ##takes a tuple of menuitem strings as input
 #a generic menu class
-#very effective
+#very effective (hah. not anymore bitches!)
 class MenuLists:
             ############the menu functions###########
 	def init_menu(self):
@@ -90,6 +90,8 @@ class MenuLists:
 		pygame.mouse.set_visible(0)
 		pygame.event.set_grab(1)
 		
+	#This one is different from teh above 3
+	#it is a wrapper for a submenu thats just text and a back command
 	def special_menu(self,menuarray):
 		#self.clear_screen()
                 pygame.mouse.set_visible(1)
@@ -114,6 +116,7 @@ class MenuLists:
 	def help_menu(self):
 		self.special_menu(("!Help:","!     Left: Left Arrow or Mouse","!     Right: Right Arrow or Mouse","!     Shoot: Space or Mouse Left","!     Pause: p","!     Exit: q or esc","!","Back"))
 		
+	#NOT DONE YET
 	def buy_menu(self,menulist):
                 #self.clear_screen()
                 pygame.mouse.set_visible(1)
@@ -137,7 +140,9 @@ class MenuLists:
 		self.clear_screen()
 		pygame.mouse.set_visible(0)
 		pygame.event.set_grab(1)
-
+		
+		
+	#generic processor of inputs. bwaha.
 	def menu_action(self, events, menu):
                 selection=-1
                 pygame.event.pump()
@@ -165,6 +170,7 @@ class MenuLists:
 	def clear_screen(self):
                 globalvars.surface.fill(globalvars.bgcolor)
 		pygame.display.flip()
-		
+
+#since this object only really needs to be made once:
 global menulists
 menulists=MenuLists()

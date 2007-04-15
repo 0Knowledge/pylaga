@@ -23,6 +23,7 @@ class Stage:
 	enemy_stages=[(5,2),(6,3),(7,4),(8,4),(9,4)]
 	current_stage=0
 	
+	#gotta have the stage remember all the lists its going to be added to
 	def __init__(self,enemymanager,playermanager,enemybulletmanager,playerbulletmanager):
 		self.enemymanager=enemymanager
 		self.playermanager=playermanager
@@ -39,12 +40,16 @@ class Stage:
 			self.current_stage+=1
 		#if self.current_stage!=0:
 			#menulists.buy_menu(( ("!Buy A","print 'buy'"),("!Buy Somethin","print 'buysomethinelse'"),("SomethinElse","print 'asdf'"),("Back","goagain=False")))
-			
+		
+		#if possible, make the enemys shoot more. MORE BUWAHAHA
 		if self.enemyodds > 15:
 			self.enemyodds-=15
 		self.enemymanager.current_transition=0
+		
+		#draw the new enemys
 		self.draw_enemys()
 		
+		#for now just set the initial gun(change btw.)
 		for player in self.playermanager:
 			player.gun=ParabolaGun(self.playerbulletmanager,WeirdFuckinBullet)
 	

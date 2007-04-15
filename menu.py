@@ -60,7 +60,7 @@ class Menu:
 			else:
 				menurect.topleft=(self.offset_x,self.menurects[x-1].bottom+self.spacing)
 				#print "The next  menurect is at %s"%menurect
-			if not menuitem.startswith("!"):
+			if not menuitem.startswith("!"): #if it doesnt start with '!', add it to the possible selectionlist
 				self.selectionlist.append(menurect.top-self.offset_y)
 			self.menuimgs.append(menuimg)
 			self.menurects.append(menurect) 
@@ -74,8 +74,11 @@ class Menu:
 		self.selectedimgrect=self.selectedimg.get_rect()
 		self.shipimg=pygame.transform.rotate(self.selector,-90)
 		self.move=self.menurects[0].height+self.spacing
+		
+		#fixes the odd bug of the selector appearing in odd spots
 		self.change_selection(self.selection)
-		x=0
+		
+		x=0 #I know i can do enumerate but who cares.
 		for menuimg in self.menuimgs:   #draw all the images to the display
 			self.menusurface.blit(menuimg,self.menurects[x])
 			#print "Displaying menu item at %s"%self.menurects[x]
@@ -141,8 +144,11 @@ class Menu:
 	def get_selection(self):
 		return self.selection+(len(self.menurects)-len(self.selectionlist))
 	
-	#i'll do these later
-	
+	#this is a rather nasty hack
+	#it calls the given function and rerenders the screen
+	#in concept this should create a hierarchy of menus
+	#but i still dont like the concept of requiring the menulist to pass it a function
+	#change or something
 	def disp_special(self,menufunction):
 		#print "displaying about"
 		#self.renderstr("This is a simple python game\nits a space shooter.\nWritten By: RJ Marsan\nOriginal: Derek Mcdonald",25)
@@ -150,34 +156,7 @@ class Menu:
 		self.rerender()
 		return
 	
-	def renderstr(self,string,size):
-		menuitems=string.split('\n')
-		font=pygame.font.Font(globalvars.defaultfont,size)
-		self.smenuimgs=[]
-		self.smenurects=[]
-		x=0
-		for menuitem in menuitems:    #render all the strings that were inputted
-			#print menuitem
-			menuimg=font.render(menuitem, 1, globalvars.menucolor, globalvars.bgcolor)
-			menurect=menuimg.get_rect()
-			if not self.smenuimgs:
-				menurect.topleft=(self.offset_x+10,self.offset_y)
-				#print "The first menurect is at %s"%menurect
-			else:
-				menurect.topleft=(self.offset_x+10,self.smenurects[x-1].bottom+1)
-				#print "The next  menurect is at %s"%menurect
-
-			self.smenuimgs.append(menuimg)
-			self.smenurects.append(menurect) 
-			#allobjects.append(menurect)
-			x+=1
-		x=0
-		self.menusurface.blit(globalvars.screen,self.menurect)
-		for menuimg in self.smenuimgs:   #draw all the images to the display
-			self.menusurface.blit(menuimg,self.smenurects[x])
-			x+=1
-		pygame.display.flip()
-	
+	#updates the screen
 	def render(self):
 		if self.fadein < self.fadeinmax:
 			self.menusurface.set_alpha(self.fadein,pygame.RLEACCEL)
@@ -189,6 +168,7 @@ class Menu:
 			
 		return
 	
+	#redraws the screen entirely
 	def rerender(self):
 		globalvars.surface.blit(self.menusurface,self.menusurfacerect)
 		pygame.display.flip()

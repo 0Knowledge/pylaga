@@ -68,7 +68,7 @@ class Gamelolz:
 		self.points.set_points(0)
 		globalvars.x=400
 		globalvars.y=globalvars.WIN_RESY-60
-		self.stage.set_stage(-1) #hax
+		self.stage.set_stage(0)
 		self.list_enemys.empty()
 		self.list_allie_shots.empty()
 		self.player_list.empty()
@@ -156,7 +156,7 @@ class Gamelolz:
 		self.test_collision()
 		self.check_rows()
 		bgstars.update()
-		self.list_enemys.shoot(self.stage.enemyodds)
+		self.list_enemys.shoot(self.stage.current_stage.enemyodds)
 		self.player.update()
 	
 	def draw(self):

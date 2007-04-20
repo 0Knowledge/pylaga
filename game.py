@@ -156,7 +156,7 @@ class Gamelolz:
 		self.test_collision()
 		self.check_rows()
 		bgstars.update()
-		self.list_enemys.shoot(self.stage.current_stage.enemyodds)
+		self.list_enemys.shoot(self.stage.enemyodds)
 		self.player.update()
 	
 	def draw(self):

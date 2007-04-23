@@ -12,7 +12,8 @@
 #import pygame os and sys libraries
 import pygame, os, sys, math, random
 from globalvars import playership,explosion_speed,gamewindow,max_health
-from bullet import Bullet
+from bullet import *
+from gun import *
 
 ################
 #origional program had a few boring player lines, so i made it an object, cuz objects are cool
@@ -58,6 +59,18 @@ class Player(pygame.sprite.Sprite):
 		
 	def shoot(self):
 		self.gun.shoot(self.rect)
+		
+	def change_gun(self,gun,bullet,slist):
+		try: 
+			a=eval(gun)
+			#print "gun is %s"%a
+			b=eval(bullet)
+			#print "bullet is %s"%b
+			c=a(slist,b)
+			#print "final gun is %s"%c
+			self.gun=c
+		except:
+			print "GUN COULD NOT BE LOADED"
 		
 	def update(self):  #yay for update...
 		if self.state > 0:

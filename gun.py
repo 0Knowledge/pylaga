@@ -19,13 +19,16 @@ class Gun:
 	def __init__(self,gunlist,Bullet):
 		self.gunlist=gunlist
 		self.bullet=Bullet
+		self.damage=1
 		
 	def shoot(self,rect):
 		a=self.bullet(self.gunlist)
 		a.set_pos(rect.centerx-a.rect.width/2,rect.centery)
+		a.damage=self.damage
 		self.gunlist.add(a)
 
 class BigFuckinGun(Gun):
+	damage=5
 	def shoot(self,rect):
 		left=rect.left
 		centery=rect.centery
@@ -33,9 +36,11 @@ class BigFuckinGun(Gun):
 		for x in range(4):
 			a=self.bullet(self.gunlist)
 			a.set_pos(left+(width*x)/4,centery)
+			a.damage=self.damage
 			self.gunlist.add(a)
 			
 class ParabolaGun(Gun):
+	damage=2
 	def shoot(self,rect):
 		centerx=rect.centerx
 		centery=rect.centery
@@ -43,6 +48,18 @@ class ParabolaGun(Gun):
 			a=self.bullet(self.gunlist)
 			a.bspeed=x
 			a.set_pos(centerx,centery)
+			a.damage=self.damage
 			self.gunlist.add(a)
+			
+class EnemyGun(Gun):
+	def __init__(self,gunlist,Bullet):
+		Gun.__init__(self,gunlist,Bullet)
+		self.damage=3
+		
+	def shoot(self,rect):
+		a=self.bullet(self.gunlist)
+		a.set_pos(rect.centerx,rect.centery)
+		a.damage=self.damage
+		self.gunlist.add(a)
 
 		

@@ -16,6 +16,7 @@ from enemy import Enemy
 from bullet import *
 from gun import *
 from menulists import MenuLists,menulists
+from data.stages import *
 
 #####################
 ##turns out makin the stages be a class was a really good idea. makes it SOO much easier.
@@ -63,14 +64,10 @@ class Stage:
 		self.draw_enemys()
 		
 		#for now just set the initial gun(change btw.)
-		for player in self.playermanager:
-			player.gun=ParabolaGun(self.playerbulletmanager,WeirdFuckinBullet)
+		
 	
 	def set_stage(self, stage):
 		self.current_stagenum=stage
-	
-	def get_stage(self):
-		return self.enemy_stages[self.current_stage]
 	
 	#draws all the enemys you ask it
 	def draw_enemys(self):
@@ -79,7 +76,7 @@ class Stage:
 			#now for the rows
 			for enemyrow in range(self.enemy_rows):
 				#make a new enemy object:
-				tempenemy=Enemy(self.enemymanager,Gun(self.enemybulletmanager,EnemyBullet))
+				tempenemy=Enemy(self.enemymanager,EnemyGun(self.enemybulletmanager,EnemyBullet))
 				#this ones a long one, but it works:
 				tempenemy.set_pos(globalvars.xmin+enemycol*(globalvars.enemy_width+globalvars.enemy_spacing_x),globalvars.ymin+enemyrow*(globalvars.enemy_height+globalvars.enemy_spacing_y)-150)
 				#this one is even worse, but works even better:

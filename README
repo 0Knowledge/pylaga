@@ -20,17 +20,20 @@ By the way this is still alpha, so dont expect anything great
 
 
 TO DO LIST:
-* correct implementation of stage progression
 * other misc. things to make the game look purrty
 * proper transitions
 * some sort of rewards thing
 
 CHANGES:
-* Cleaned up a lot of the code
-* Added 2 guns and a bullet
+* correct implementation of stage progression (that was a bitch)
 
 OLD-CHANGES:
+* Cleaned up a lot of the code
+* Added 2 guns and a bullet
 * Moved the game to an object called 'gamelolz'
 * Made a game manager
 * Added Keyboard support
 * Changed name (Pylaga sounds cooler anyways)
+
+NOTES:
+* Because the stage transition requires recompiling the stage files, it lags a bit between transitions

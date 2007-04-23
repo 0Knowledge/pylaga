@@ -14,7 +14,6 @@ import pygame, os, sys, math, random
 import globalvars
 from bullet import EnemyBullet
 
-
 #####################
 class EnemyManager(pygame.sprite.RenderUpdates):
 	def __init__(self):
@@ -23,6 +22,7 @@ class EnemyManager(pygame.sprite.RenderUpdates):
 		self.transition_speed=5
 		self.transition_time=150/self.transition_speed
 		self.current_transition=0
+		
 	def shoot(self,odds):
 		self.asdf=random.randint(0,odds)
 		if self.asdf < len(self):

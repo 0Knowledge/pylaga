@@ -23,6 +23,7 @@ class Bullet(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect()  #sets the rect associated with the image
 		self.bspeed=globalvars.BULLET_SPEED #sets the speed
 		self.health=1
+		self.damage=1
 	
 	#k all this does what it looks like, no comment needed save this one
 	
@@ -51,6 +52,7 @@ class EnemyBullet(Bullet):
 		self.rect = self.image.get_rect()  #sets the rect associated with the image
 		self.bspeed=globalvars.BULLET_SPEED #sets the speed
 		self.health=1
+		self.damage=1
 		
 	def update(self):
 		self.rect.move_ip(0,(self.bspeed)) #remember it STARTS at the highest Y value

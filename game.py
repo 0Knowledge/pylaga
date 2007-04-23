@@ -98,9 +98,10 @@ class Gamelolz:
 			self.list_allie_shots.remove(bullet)
 			enemy.hit(1)
 			self.points.add_points(1)
-		if pygame.sprite.spritecollide(self.player, self.enemy_shots,1):
+		for q in pygame.sprite.spritecollide(self.player, self.enemy_shots,0):
 			#print "ZOMFG SHOTZORZ"
-			self.player.set_hit(1)
+			self.player.set_hit(q.damage)
+			self.enemy_shots.remove(q)
 	
 	#if there are no enemys left, go to the next stage
 	def check_done(self):
@@ -276,7 +277,11 @@ class Gamelolz:
 			self.enemylist=[]
 			
 			#pauses and waits
-			timeittook=globalvars.clock.tick(globalvars.FPS)
+			self.time= globalvars.clock.get_time()
+			if self.time > globalvars.FPS:
+				timeittook=globalvars.clock.tick(globalvars.FPS-(self.time-globalvars.FPS))
+			else:
+				timeittook=globalvars.clock.tick(globalvars.FPS)
 			#if timeittook > 1000/globalvars.FPS:
 			#	print "LAG:"+str(self.lagcount)+" at "+str(timeittook)+"ms"
 				#self.dispvars()

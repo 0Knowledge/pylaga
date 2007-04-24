@@ -16,10 +16,10 @@ class Gun:
 	"""
 		basically just a simple class to make shooting simpler
 	"""
-	def __init__(self,gunlist,Bullet):
+	def __init__(self,gunlist,Bullet,damage=1):
 		self.gunlist=gunlist
 		self.bullet=Bullet
-		self.damage=1
+		self.damage=damage
 		
 	def shoot(self,rect):
 		a=self.bullet(self.gunlist)
@@ -28,7 +28,6 @@ class Gun:
 		self.gunlist.add(a)
 
 class BigFuckinGun(Gun):
-	damage=5
 	def shoot(self,rect):
 		left=rect.left
 		centery=rect.centery
@@ -40,7 +39,6 @@ class BigFuckinGun(Gun):
 			self.gunlist.add(a)
 			
 class ParabolaGun(Gun):
-	damage=2
 	def shoot(self,rect):
 		centerx=rect.centerx
 		centery=rect.centery
@@ -52,9 +50,6 @@ class ParabolaGun(Gun):
 			self.gunlist.add(a)
 			
 class EnemyGun(Gun):
-	def __init__(self,gunlist,Bullet):
-		Gun.__init__(self,gunlist,Bullet)
-		self.damage=3
 		
 	def shoot(self,rect):
 		a=self.bullet(self.gunlist)

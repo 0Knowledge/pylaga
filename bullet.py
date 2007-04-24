@@ -32,6 +32,8 @@ class Bullet(pygame.sprite.Sprite):
 		
 	def set_hit(self,h=1):
 		self.health-=h
+		if self.health <= 0:
+			self.parentlist.remove(self)
 		
 	def set_speed(self, speed):
 		self.bspeed=speed

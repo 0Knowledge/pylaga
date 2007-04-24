@@ -95,8 +95,8 @@ class Gamelolz:
 		#todie=pygame.sprite.groupcollide(self.list_enemys, self.list_allie_shots,0,0)
 		#print todie
 		for enemy,bullet in todie.iteritems():
-			self.list_allie_shots.remove(bullet)
-			enemy.hit(1)
+			bullet.set_hit(1)
+			enemy.hit(bullet.damage)
 			self.points.add_points(1)
 		for q in pygame.sprite.spritecollide(self.player, self.enemy_shots,0):
 			#print "ZOMFG SHOTZORZ"
@@ -280,6 +280,7 @@ class Gamelolz:
 			self.time= globalvars.clock.get_time()
 			if self.time > globalvars.FPS:
 				timeittook=globalvars.clock.tick(globalvars.FPS-(self.time-globalvars.FPS))
+				print "Lag at frame %s\t%sms"%(globalvars.asdf,self.time)
 			else:
 				timeittook=globalvars.clock.tick(globalvars.FPS)
 			#if timeittook > 1000/globalvars.FPS:

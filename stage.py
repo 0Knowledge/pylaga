@@ -76,7 +76,7 @@ class Stage:
 			#now for the rows
 			for enemyrow in range(self.enemy_rows):
 				#make a new enemy object:
-				tempenemy=Enemy(self.enemymanager,EnemyGun(self.enemybulletmanager,EnemyBullet))
+				tempenemy=Enemy(self.enemymanager,EnemyGun(self.enemybulletmanager,EnemyBullet,self.enemy_damage))
 				#this ones a long one, but it works:
 				tempenemy.set_pos(globalvars.xmin+enemycol*(globalvars.enemy_width+globalvars.enemy_spacing_x),globalvars.ymin+enemyrow*(globalvars.enemy_height+globalvars.enemy_spacing_y)-150)
 				#this one is even worse, but works even better:

@@ -7,7 +7,7 @@
 #	stage manager
 #
 #	Needs lots of improvement
-#	...thats never a good thing to hear
+#	i *think* thats done.
 #
 #import pygame os and sys libraries
 import pygame, os, sys, math, random
@@ -22,7 +22,7 @@ from data.stages import *
 ##turns out makin the stages be a class was a really good idea. makes it SOO much easier.
 class Stage:
 	current_stagenum=0
-	datadir=globalvars.DATADIR[:len(globalvars.DATADIR)-1]+".stages.stage"
+	datadir=globalvars.DATADIR+globalvars.STAGEDIR+"stage"
 	
 	#gotta have the stage remember all the lists its going to be added to
 	def __init__(self,enemymanager,playermanager,enemybulletmanager,playerbulletmanager):
@@ -35,8 +35,7 @@ class Stage:
 		file=self.datadir+str(0)
 		execstr="import "+file
 		try:
-			exec execstr
-			self.current_stage=eval(file)
+			self.current_stage=__import__(file)
 			self.current_stage.start(self)
 		except:
 			import pylaga
@@ -48,11 +47,9 @@ class Stage:
 		#woo, k so this dynamically loads the stage files
 		self.current_stagenum+=1
 		file=self.datadir+str(self.current_stagenum)
-		execstr="import "+file
 		print "Changing stage to %s"%file
 		try:
-			exec execstr
-			self.current_stage=eval(file)
+			self.current_stage=__import__(file)
 			self.current_stage.start(self)
 		except:
 			self.current_stagenum-=1

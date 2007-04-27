@@ -18,8 +18,10 @@ class BackgroundManager(pygame.sprite.Sprite):
 	last_stars=[ ]
 	
 	def __init__(self):
+		self.star_color=globalvars.star_color
 		for x in range(globalvars.init_stars):
 			self.add_star()
+		
 	
 	def update(self):
 		for counter,star in enumerate(self.stars):
@@ -35,7 +37,7 @@ class BackgroundManager(pygame.sprite.Sprite):
 	
 	def draw(self):
 		for star in self.stars:
-			globalvars.surface.fill(globalvars.star_color,star)
+			globalvars.surface.fill(self.star_color,star)
 		return self.stars
 		
 	def clear(self):

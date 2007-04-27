@@ -44,13 +44,15 @@ class Gamelolz:
 		#a little hack so that the background works nicer
 		self.background=globalvars.screen
 		#make the rectlist to handle dirty updating
-		self.enemylist=[]
+		self.updaterects=[]
+		#background object
 		self.bgstars=BackgroundManager()
 		##make the lists to handle various sprites
 		self.list_enemys=EnemyManager()
 		self.player_list=pygame.sprite.RenderUpdates()
 		self.list_allie_shots=pygame.sprite.RenderUpdates()
 		self.enemy_shots=pygame.sprite.RenderUpdates()
+		self.token_list=pygame.sprite.RenderUpdates()
 		##make a new stage object
 		self.stage=Stage(self,self.list_enemys,self.player_list,self.enemy_shots,self.list_allie_shots)
 		self.new_display()
@@ -79,14 +81,14 @@ class Gamelolz:
 		print "Game Restarted"
 		
 	#define function to draw player ship on X, Y plane
-	def pship(self, x,y):
+	def pship(self):
 		self.player_list.clear(globalvars.surface,self.background)
-		self.enemylist+=self.player_list.draw(globalvars.surface)
+		self.updaterects+=self.player_list.draw(globalvars.surface)
 	
 	#Define function to move the enemy ship
 	def emove(self):
 		self.list_enemys.clear(globalvars.surface, self.background)
-		self.enemylist+=self.list_enemys.draw(globalvars.surface)
+		self.updaterects+=self.list_enemys.draw(globalvars.surface)
 	
 	
 				
@@ -102,9 +104,13 @@ class Gamelolz:
 			enemy.hit(bullet.damage)
 			self.points.add_points(1)
 		for q in pygame.sprite.spritecollide(self.player, self.enemy_shots,0):
+		#for q in ecollision.spritecollide(self.player, self.enemy_shots,0,ecollision.TOP):
 			#print "ZOMFG SHOTZORZ"
 			self.player.set_hit(q.damage)
 			self.enemy_shots.remove(q)
+		if self.token_list:
+			for token in ecollision.spritecollide(self.player, self.token_list,0, ecollision.TOP):
+				print token
 	
 	#if there are no enemys left, go to the next stage
 	def check_done(self):
@@ -133,22 +139,31 @@ class Gamelolz:
 			#x.draw()
 		self.list_allie_shots.clear(globalvars.surface,self.background)
 		self.enemy_shots.clear(globalvars.surface,self.background)
-		self.enemylist+=self.list_allie_shots.draw(globalvars.surface)
-		self.enemylist+=self.enemy_shots.draw(globalvars.surface)
+		self.updaterects+=self.list_allie_shots.draw(globalvars.surface)
+		self.updaterects+=self.enemy_shots.draw(globalvars.surface)
 	
 	#...
 	def drawsidepanel(self):
 		if globalvars.asdf%5==0:
 			self.side_panel.update()
 		self.side_panel.clear(globalvars.surface,self.background)
-		self.enemylist+=self.side_panel.draw(globalvars.surface)
-
+		self.updaterects+=self.side_panel.draw(globalvars.surface)
+		
+	#dont ask why i made this a function, i made draw<asdf> for everythign else 
+	#so figured id make this too
+	def drawtokens(self):
+		if self.token_list:
+			self.token_list.clear(globalvars.surface,self.background)
+			self.updaterects+=self.token_list.draw(globalvars.surface)
 		
 	#goes through all the arrays and makes each of them move 1 space, simple and easy yet it deserves a comment...
 	def tick(self):
+		self.bgstars.update()
 		self.list_allie_shots.update()
 		self.list_enemys.update()
 		self.enemy_shots.update()
+		self.token_list.update()
+		self.player.update()
 	
 	######################
 	#heres a bunch of metafunctions
@@ -159,17 +174,18 @@ class Gamelolz:
 		self.check_done()
 		self.test_collision()
 		self.check_rows()
-		self.bgstars.update()
 		self.list_enemys.shoot(self.stage.enemyodds)
-		self.player.update()
+
+
 	
 	def draw(self):
-		self.enemylist+=self.bgstars.draw()
-		self.enemylist+=self.bgstars.clear()
+		self.updaterects+=self.bgstars.draw()
+		self.updaterects+=self.bgstars.clear()
 		self.drawbullets()
-		self.pship(globalvars.x,globalvars.y)
+		self.pship()
 		self.emove()
 		self.drawsidepanel()
+		self.drawtokens()
 	
 	#does just what it sounds like.....
         def clear_screen(self):
@@ -264,20 +280,20 @@ class Gamelolz:
 			#check everythign and see if changes need to be made
 			self.check()
 			
-			#draw bullets
-			self.draw()
-			
 			#move everything 1
 			self.tick()
 						
 			#initiate input function
 			self.input(pygame.event.get())
-		
+			
+			#draw everything
+			self.draw()
+			
 			#applies the smart screen updating
 			#globalvars.surface.set_alpha(150,pygame.RLEACCEL)       ......dont ask why
 			#globalvars.surface2.blit(globalvars.surface,globalvars.surfacerect)
-			pygame.display.update(self.enemylist)
-			self.enemylist=[]
+			pygame.display.update(self.updaterects)
+			self.updaterects=[]
 			
 			#pauses and waits
 			self.time= globalvars.clock.get_time()

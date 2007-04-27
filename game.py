@@ -41,6 +41,8 @@ class Gamelolz:
 		self.lagcount=0		
 		self.leftkeydown=0
 		self.rightkeydown=0
+		#a little hack so that the background works nicer
+		self.background=globalvars.screen
 		#make the rectlist to handle dirty updating
 		self.enemylist=[]
 		self.bgstars=BackgroundManager()
@@ -50,7 +52,7 @@ class Gamelolz:
 		self.list_allie_shots=pygame.sprite.RenderUpdates()
 		self.enemy_shots=pygame.sprite.RenderUpdates()
 		##make a new stage object
-		self.stage=Stage(self.list_enemys,self.player_list,self.enemy_shots,self.list_allie_shots)
+		self.stage=Stage(self,self.list_enemys,self.player_list,self.enemy_shots,self.list_allie_shots)
 		self.new_display()
 	
 	def new_display(self):
@@ -78,12 +80,12 @@ class Gamelolz:
 		
 	#define function to draw player ship on X, Y plane
 	def pship(self, x,y):
-		self.player_list.clear(globalvars.surface,globalvars.screen)
+		self.player_list.clear(globalvars.surface,self.background)
 		self.enemylist+=self.player_list.draw(globalvars.surface)
 	
 	#Define function to move the enemy ship
 	def emove(self):
-		self.list_enemys.clear(globalvars.surface, globalvars.screen)
+		self.list_enemys.clear(globalvars.surface, self.background)
 		self.enemylist+=self.list_enemys.draw(globalvars.surface)
 	
 	
@@ -106,7 +108,7 @@ class Gamelolz:
 	
 	#if there are no enemys left, go to the next stage
 	def check_done(self):
-		if not globalvars.asdf%20 and not self.list_enemys:
+		if not globalvars.asdf%20 and not self.list_enemys: #the %20 lets it wait a fraction of a second
 			self.stage.next_stage()
 	
 	#checks to see if we can expand the ranges of the bots so its nice and.... umm... nice.
@@ -121,7 +123,7 @@ class Gamelolz:
                 return True
 		
 	
-	#this is called if the player shoots
+	#this is called if the player shoots... to be honest i dont know why this is a function
 	def pshoot(self):
 		self.player.shoot()
 	
@@ -129,8 +131,8 @@ class Gamelolz:
 	def drawbullets(self):
 		#for x in self.list_allie_shots:
 			#x.draw()
-		self.list_allie_shots.clear(globalvars.surface,globalvars.screen)
-		self.enemy_shots.clear(globalvars.surface,globalvars.screen)
+		self.list_allie_shots.clear(globalvars.surface,self.background)
+		self.enemy_shots.clear(globalvars.surface,self.background)
 		self.enemylist+=self.list_allie_shots.draw(globalvars.surface)
 		self.enemylist+=self.enemy_shots.draw(globalvars.surface)
 	
@@ -138,7 +140,7 @@ class Gamelolz:
 	def drawsidepanel(self):
 		if globalvars.asdf%5==0:
 			self.side_panel.update()
-		self.side_panel.clear(globalvars.surface,globalvars.screen)
+		self.side_panel.clear(globalvars.surface,self.background)
 		self.enemylist+=self.side_panel.draw(globalvars.surface)
 
 		
@@ -174,7 +176,7 @@ class Gamelolz:
                 globalvars.surface.fill(globalvars.bgcolor)
 		pygame.display.flip()
 	
-	#for debugging info mostly
+	#for debugging info mostly... No entirely
 	def dispvars(self):
 		print "The Enemy Array size is:",len(self.list_enemys.sprites())
 		print "The Player Shot Array size is:",len(self.list_allie_shots.sprites())
@@ -253,7 +255,7 @@ class Gamelolz:
 		#start loop
 		while self.again():
 			
-			#refresh globalvars.screen...needs to be done once in a while
+			#refresh self.background...needs to be done once in a while
 			if globalvars.asdf>=globalvars.REFRESH_TIME:
 				#self.clear_screen()
 				globalvars.asdf=0

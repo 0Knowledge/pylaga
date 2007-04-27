@@ -6,7 +6,7 @@
 #
 #	The Base 'Gun' Class and several derivatives
 #
-#
+#	These are teh built in ones, the rest are in data/guns/
 #
 #
 #import pygame os and sys libraries

@@ -25,7 +25,8 @@ class Stage:
 	datadir=globalvars.DATADIR+globalvars.STAGEDIR+"stage"
 	
 	#gotta have the stage remember all the lists its going to be added to
-	def __init__(self,enemymanager,playermanager,enemybulletmanager,playerbulletmanager):
+	def __init__(self,parent,enemymanager,playermanager,enemybulletmanager,playerbulletmanager):
+		self.p=parent
 		self.enemymanager=enemymanager
 		self.playermanager=playermanager
 		self.enemybulletmanager=enemybulletmanager
@@ -59,9 +60,7 @@ class Stage:
 		
 		#draw the new enemys
 		self.draw_enemys()
-		
-		#for now just set the initial gun(change btw.)
-		
+				
 	
 	def set_stage(self, stage):
 		self.current_stagenum=stage

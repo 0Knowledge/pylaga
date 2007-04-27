@@ -26,6 +26,7 @@ TO DO LIST:
 
 CHANGES:
 * correct implementation of stage progression (that was a bitch)
+* dynamic stages!
 
 OLD-CHANGES:
 * Cleaned up a lot of the code

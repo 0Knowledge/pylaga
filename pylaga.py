@@ -31,7 +31,7 @@ try:
 	from pygame.locals import*
 	import globalvars
 	from bullet import Bullet, EnemyBullet
-	from background import BackgroundManager, bgstars
+	from background import BackgroundManager
 	from enemy import Enemy, EnemyManager
 	from player import Player
 	from stage import Stage

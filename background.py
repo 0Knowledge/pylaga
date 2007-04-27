@@ -58,5 +58,4 @@ class star(pygame.Rect):
 	def get_speed(self):
 		return self.speed
 	
-global bgstars
-bgstars=BackgroundManager()
+

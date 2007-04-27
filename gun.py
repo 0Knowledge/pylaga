@@ -12,6 +12,9 @@
 #import pygame os and sys libraries
 import pygame, os, sys, math, random, globalvars, bullet
 
+#So i just realized i need to explain how these are created.
+#it asks for the list that the bullets are added to, the Bullet class that it creates bullets out of
+#and how much damage this gun will cause (not mandatory)
 class Gun:
 	"""
 		basically just a simple class to make shooting simpler
@@ -36,6 +39,7 @@ class BigFuckinGun(Gun):
 			a=self.bullet(self.gunlist)
 			a.set_pos(left+(width*x)/4,centery)
 			a.damage=self.damage
+			a.health=2
 			self.gunlist.add(a)
 			
 class ParabolaGun(Gun):

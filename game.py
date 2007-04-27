@@ -14,7 +14,7 @@ try:
 	from pygame.locals import*
 	import globalvars
 	from bullet import Bullet, EnemyBullet
-	from background import BackgroundManager, bgstars
+	from background import BackgroundManager
 	from enemy import Enemy, EnemyManager
 	from player import Player
 	from stage import Stage
@@ -43,6 +43,7 @@ class Gamelolz:
 		self.rightkeydown=0
 		#make the rectlist to handle dirty updating
 		self.enemylist=[]
+		self.bgstars=BackgroundManager()
 		##make the lists to handle various sprites
 		self.list_enemys=EnemyManager()
 		self.player_list=pygame.sprite.RenderUpdates()
@@ -156,13 +157,13 @@ class Gamelolz:
 		self.check_done()
 		self.test_collision()
 		self.check_rows()
-		bgstars.update()
+		self.bgstars.update()
 		self.list_enemys.shoot(self.stage.enemyodds)
 		self.player.update()
 	
 	def draw(self):
-		self.enemylist+=bgstars.draw()
-		self.enemylist+=bgstars.clear()
+		self.enemylist+=self.bgstars.draw()
+		self.enemylist+=self.bgstars.clear()
 		self.drawbullets()
 		self.pship(globalvars.x,globalvars.y)
 		self.emove()

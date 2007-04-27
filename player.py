@@ -14,6 +14,8 @@ import pygame, os, sys, math, random
 from globalvars import playership,explosion_speed,gamewindow,max_health
 from bullet import *
 from gun import *
+from data.guns import *
+from data.bullets import *
 
 ################
 #origional program had a few boring player lines, so i made it an object, cuz objects are cool

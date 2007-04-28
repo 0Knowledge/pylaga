@@ -3,4 +3,4 @@ def start(p):
 	p.enemy_cols=5
 	p.enemyodds=100
 	for player in p.playermanager:
-		player.change_gun("Gun","Bullet",p.playerbulletmanager,2)
+		player.change_gun("TrueBFG","WeirdFuckinBullet",p.playerbulletmanager)

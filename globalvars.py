@@ -121,7 +121,9 @@ surface = pygame.display.get_surface()
 def load_file(filename):
     try:
         imgfile=os.path.join(filename)
-        return pygame.image.load(imgfile).convert()
+        img = pygame.image.load(imgfile).convert()
+	img.set_colorkey((0,0,0),pygame.RLEACCEL)
+        return img
     except:
         print "Failed to load file "+filename
 	

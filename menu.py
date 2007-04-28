@@ -103,7 +103,7 @@ class Menu:
 			except:
 				print "I give up, not displaying an image"
 				y=-50
-		self.selectedimg.fill(globalvars.bgcolor)
+		self.selectedimg.fill((0,0,0))
 		self.selectedimg.blit(self.shipimg,pygame.Rect(0,y,50,50))
 		#self.menusurface.blit(self.shipimg,pygame.Rect(self.selectedrect.left,self.selectionlist[selection],50,50))
 		self.menusurface.blit(self.selectedimg,self.selectedrect)

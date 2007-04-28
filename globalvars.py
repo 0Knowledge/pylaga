@@ -146,6 +146,7 @@ playership.append(load_file(DATADIR+'pship3.bmp'))
 
 #loads enemy ship image
 enemyship=(load_file(DATADIR+ENEMYDIR+'eship.bmp'))
+enemyship2=(load_file(DATADIR+ENEMYDIR+'enemy2.jpeg'))
 
 #loads laser, laser1 and all other images associated with pshoot
 shot = load_file(DATADIR+'laser.bmp')

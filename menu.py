@@ -101,7 +101,7 @@ class Menu:
 				y=self.selectionlist[0]
 				self.selection=0
 			except:
-				print "I give up, not displaying an image"
+				print "I give up, not displaying an image at all\n YOU SUCK"
 				y=-50
 		self.selectedimg.fill((0,0,0))
 		self.selectedimg.blit(self.shipimg,pygame.Rect(0,y,50,50))

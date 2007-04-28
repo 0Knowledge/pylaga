@@ -23,7 +23,8 @@ class Gun:
 		self.gunlist=gunlist
 		self.bullet=Bullet
 		self.damage=damage
-		
+	
+	## i should mention that 'rect' is the location of the ship the gun is on
 	def shoot(self,rect):
 		a=self.bullet(self.gunlist)
 		a.set_pos(rect.centerx-a.rect.width/2,rect.centery)
@@ -52,6 +53,16 @@ class ParabolaGun(Gun):
 			a.set_pos(centerx,centery)
 			a.damage=self.damage
 			self.gunlist.add(a)
+			
+class EnemyGun(Gun):
+		
+	def shoot(self,rect):
+		a=self.bullet(self.gunlist)
+		a.set_pos(rect.centerx,rect.centery)
+		a.damage=self.damage
+		self.gunlist.add(a)
+
+#snakes:
 class TrueBFG(Gun):
 	def shoot(self,rect):
 		left=rect.left
@@ -63,13 +74,20 @@ class TrueBFG(Gun):
 			a.damage=self.damage
 			a.health=2
 			self.gunlist.add(a)
-			
-class EnemyGun(Gun):
-		
+
+#Mine:
+#jews, please dont take offense to it
+#i love your religoin, it just reminds me of a manorah (i spelled that wrong.)
+class HanukkahGun(Gun):
 	def shoot(self,rect):
-		a=self.bullet(self.gunlist)
-		a.set_pos(rect.centerx,rect.centery)
-		a.damage=self.damage
-		self.gunlist.add(a)
+		centerx=rect.centerx
+		centery=rect.centery
+		for x in [-5,-4,-3,-2,-1,0,1,2,3,4,5]:
+			a=self.bullet(self.gunlist)
+			a.bspeed=x
+			a.x=-2
+			a.set_pos(centerx,centery)
+			a.damage=self.damage
+			self.gunlist.add(a)
 
 		

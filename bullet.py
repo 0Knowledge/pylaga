@@ -28,7 +28,8 @@ class Bullet(pygame.sprite.Sprite):
 	#k all this does what it looks like, no comment needed save this one
 	
 	def set_pos(self, tempx,tempy):
-		self.rect.move_ip(tempx,tempy)
+		self.rect.topleft=(tempx,tempy)
+		#self.rect.move_ip(tempx,tempy)
 		
 	def set_hit(self,h=1):
 		self.health-=h

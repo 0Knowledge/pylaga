@@ -28,6 +28,7 @@ ENEMYDIR="enemys/"
 BULLETDIR="bullets/"
 GUNDIR="guns/"
 STAGEDIR="stages/"
+    
 global FPS
 FPS=60
 global WIN_RESX

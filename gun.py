@@ -62,6 +62,14 @@ class EnemyGun(Gun):
 		a.set_pos(rect.centerx,rect.centery)
 		a.damage=self.damage
 		self.gunlist.add(a)
+		
+class EnemyGun2(Gun):
+		
+	def shoot(self,rect):
+		a=self.bullet(self.gunlist)
+		a.set_pos(rect.centerx,rect.centery)
+		a.damage=6
+		self.gunlist.add(a)
 
 #snakes:
 class TrueBFG(Gun):

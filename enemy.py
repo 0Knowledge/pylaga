@@ -139,4 +139,7 @@ class Enemy(pygame.sprite.Sprite):
 		self.gun.shoot(self.rect)
 ###################
 
-
+class Enemy2(Enemy):
+	def __init__(self, parent, gun, health=1):
+		Enemy.__init__(self, parent, gun, health=1)
+		self.image=globalvars.enemyship2

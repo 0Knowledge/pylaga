@@ -20,7 +20,9 @@ import pygame, os, sys, math, random
 #note to self: clean this shit up
 global VERSION
 VERSION="Pylaga .0.14"
-global DATADIR,ENEMYDIR,STAGEDIR
+global DATADIR,ENEMYDIR,STAGEDIR,ROOTDIR
+ROOTDIR=os.getcwd()
+sys.path.append(ROOTDIR)
 DATADIR="data/"
 ENEMYDIR="enemys/"
 BULLETDIR="bullets/"

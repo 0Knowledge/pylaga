@@ -3,3 +3,5 @@ def start(p):
 	p.enemy_cols=7
 	p.enemyodds=100
 	p.p.bgstars.star_color=(0,128,128)
+	for player in p.playermanager:
+		player.change_gun("swarmgun.SwarmGun","swarmbullet.SwarmBullet",p.playerbulletmanager,2)

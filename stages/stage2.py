@@ -11,3 +11,6 @@ def start(p):
 	#i'll make an API later, for now these things can modify Anything if you know how
 	#big IF cuz this program is big and confusing
 	p.p.bgstars.star_color=(128,128,0)
+	
+	for player in p.playermanager:
+		player.change_gun("ParabolaGun","WeirdFuckinBullet",p.playerbulletmanager)

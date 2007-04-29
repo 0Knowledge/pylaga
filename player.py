@@ -73,6 +73,8 @@ class Player(pygame.sprite.Sprite):
 			self.gun=c
 		except:
 			print "GUN COULD NOT BE LOADED"
+			#import AHH
+			#AHH.ahh(1)
 		
 	def update(self):  #yay for update...
 		if self.state > 0:

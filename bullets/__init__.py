@@ -1,1 +1,1 @@
-__all__=["sinbullet"]
+__all__=["sinbullet","swarmbullet"]

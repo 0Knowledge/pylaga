@@ -2,7 +2,7 @@ from gun import Gun
 
 class SinGun(Gun):
 	def shoot(self,rect):
-		print self.bullet
+		#print self.bullet
 		for x in [-1,1]:
                 	a=self.bullet(self.gunlist,mid=rect.centerx)
                 	a.rect.midtop=rect.midtop

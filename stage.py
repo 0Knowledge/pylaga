@@ -36,7 +36,11 @@ class Stage:
 		file=self.datadir+str(0)
 		execstr="import "+file
 		try:
-			self.current_stage=__import__(file)
+			if os.name=='nt':
+				exec "import stages.stage"+str(0)
+				self.current_stage=eval("stages.stage0")
+			else:
+				self.current_stage=__import__(file)
 			self.current_stage.start(self)
 		except:
 			import pylaga
@@ -50,7 +54,11 @@ class Stage:
 		file=self.datadir+str(self.current_stagenum)
 		print "Changing stage to %s"%file
 		try:
-			self.current_stage=__import__(file)
+			if os.name=='nt':
+				exec "import stages.stage"+str(self.current_stagenum)
+				self.current_stage=eval("stages.stage"+str(self.current_stagenum))
+			else:
+				self.current_stage=__import__(file)
 			self.current_stage.start(self)
 		except:
 			self.current_stagenum-=1

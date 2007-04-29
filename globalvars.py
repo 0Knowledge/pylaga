@@ -23,6 +23,8 @@ VERSION="Pylaga .0.14"
 global DATADIR,ENEMYDIR,STAGEDIR
 DATADIR="data/"
 ENEMYDIR="enemys/"
+BULLETDIR="bullets/"
+GUNDIR="guns/"
 STAGEDIR="stages/"
 global FPS
 FPS=60
@@ -145,22 +147,22 @@ playership.append(load_file(DATADIR+'pship2.bmp'))
 playership.append(load_file(DATADIR+'pship3.bmp'))
 
 #loads enemy ship image
-enemyship=(load_file(DATADIR+ENEMYDIR+'eship.bmp'))
-enemyship2=(load_file(DATADIR+ENEMYDIR+'enemy2.jpeg'))
+enemyship=(load_file(DATADIR+'eship.bmp'))
+enemyship2=(load_file(DATADIR+'enemy2.jpeg'))
 
 #loads laser, laser1 and all other images associated with pshoot
 shot = load_file(DATADIR+'laser.bmp')
-eshot = load_file(DATADIR+ENEMYDIR+'elaser.bmp')
+eshot = load_file(DATADIR+'elaser.bmp')
 
 #array to hold the explosions
 global explosions
 explosions=[ ]
 #load the collision animations... dont ask why theres so many im just lazy
-explosions.append(load_file(DATADIR+ENEMYDIR+'explosion1.bmp'))
-explosions.append(load_file(DATADIR+ENEMYDIR+'explosion2.bmp'))
-explosions.append(load_file(DATADIR+ENEMYDIR+'explosion3.bmp'))
-explosions.append(load_file(DATADIR+ENEMYDIR+'explosion4.bmp'))
-explosions.append(load_file(DATADIR+ENEMYDIR+'explosion5.bmp'))
+explosions.append(load_file(DATADIR+'explosion1.bmp'))
+explosions.append(load_file(DATADIR+'explosion2.bmp'))
+explosions.append(load_file(DATADIR+'explosion3.bmp'))
+explosions.append(load_file(DATADIR+'explosion4.bmp'))
+explosions.append(load_file(DATADIR+'explosion5.bmp'))
 
 #initialize pygame
 pygame.init()

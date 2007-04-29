@@ -24,7 +24,7 @@ class Bullet(pygame.sprite.Sprite):
 		self.bspeed=globalvars.BULLET_SPEED #sets the speed
 		self.health=1
 		self.damage=1
-		self.kw=**kw
+		self.kw=kw
 	
 	#k all this does what it looks like, no comment needed save this one
 	

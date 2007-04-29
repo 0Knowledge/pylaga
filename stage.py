@@ -16,13 +16,13 @@ from enemy import Enemy
 from bullet import *
 from gun import *
 from menulists import MenuLists,menulists
-from data.stages import *
+from stages import *
 
 #####################
 ##turns out makin the stages be a class was a really good idea. makes it SOO much easier.
 class Stage:
 	current_stagenum=0
-	datadir=globalvars.DATADIR+globalvars.STAGEDIR+"stage"
+	datadir=globalvars.STAGEDIR+"stage"
 	
 	#gotta have the stage remember all the lists its going to be added to
 	def __init__(self,parent,enemymanager,playermanager,enemybulletmanager,playerbulletmanager):

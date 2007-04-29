@@ -62,13 +62,13 @@ class Player(pygame.sprite.Sprite):
 	def shoot(self):
 		self.gun.shoot(self.rect)
 		
-	def change_gun(self,gun,bullet,slist,damage=1):
+	def change_gun(self,gun,bullet,slist,damage=1,**kw):
 		try: 
 			a=eval(gun)
 			#print "gun is %s"%a
 			b=eval(bullet)
 			#print "bullet is %s"%b
-			c=a(slist,b,damage)
+			c=a(slist,b,damage,**kw)
 			#print "final gun is %s"%c
 			self.gun=c
 		except:

@@ -19,14 +19,15 @@ class Gun:
 	"""
 		basically just a simple class to make shooting simpler
 	"""
-	def __init__(self,gunlist,Bullet,damage=1):
+	def __init__(self,gunlist,Bullet,damage=1,**kw):
 		self.gunlist=gunlist
 		self.bullet=Bullet
 		self.damage=damage
+		self.kw=kw
 	
 	## i should mention that 'rect' is the location of the ship the gun is on
 	def shoot(self,rect):
-		a=self.bullet(self.gunlist)
+		a=self.bullet(self.gunlist,**self.kw)
 		a.set_pos(rect.centerx-a.rect.width/2,rect.centery)
 		a.damage=self.damage
 		self.gunlist.add(a)

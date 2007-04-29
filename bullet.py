@@ -16,7 +16,7 @@ import pygame, os, sys, math, random, globalvars
 class Bullet(pygame.sprite.Sprite):  
 	
 	
-	def __init__(self, parentlist):
+	def __init__(self, parentlist,**kw):
 		self.parentlist=parentlist
 		pygame.sprite.Sprite.__init__(self) #call Sprite initializer
 		self.image = globalvars.shot  #sets the image
@@ -24,9 +24,11 @@ class Bullet(pygame.sprite.Sprite):
 		self.bspeed=globalvars.BULLET_SPEED #sets the speed
 		self.health=1
 		self.damage=1
+		self.kw=**kw
 	
 	#k all this does what it looks like, no comment needed save this one
 	
+	#try to just do x.rect.topleft=asdf, cuz it works the same as this
 	def set_pos(self, tempx,tempy):
 		self.rect.topleft=(tempx,tempy)
 		#self.rect.move_ip(tempx,tempy)

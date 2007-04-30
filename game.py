@@ -50,7 +50,7 @@ class Gamelolz:
 		##make the lists to handle various sprites
 		self.list_enemys=EnemyManager()
 		self.player_list=pygame.sprite.RenderUpdates()
-		self.list_allie_shots=pygame.sprite.RenderUpdates()
+		self.list_allie_shots=pygame.sprite.OrderedUpdates()
 		self.enemy_shots=pygame.sprite.RenderUpdates()
 		self.token_list=pygame.sprite.RenderUpdates()
 		##make a new stage object
@@ -96,7 +96,7 @@ class Gamelolz:
 	#i think i might switch to the objects, but still keep this function just hand the computing to the object
 	#seems most efficient
 	def test_collision(self):
-		todie=ecollision.groupcollide(self.list_enemys, self.list_allie_shots,0,0,ecollision.BOTTOM)
+		todie=ecollision.groupcollide2(self.list_enemys, self.list_allie_shots,0,0,ecollision.BOTTOM)
 		#todie=pygame.sprite.groupcollide(self.list_enemys, self.list_allie_shots,0,0)
 		#print todie
 		for enemy,bullet in todie.iteritems():

@@ -62,4 +62,54 @@ def groupcollide(group1, group2, die1, die2, direction):
 		for b in a:
 			returnlist[g]=b
 	return returnlist
+		
+
+def spritecollide2(sprite, group, die1, direction):
+	returnarray=[]
+	if direction == TOP:
+		for a in group:
+			if sprite.rect.top > a.rect.bottom:
+				break
+				#print "Ah fuck this: %s"%a.rect
+				#break  ## the key line that makes everything faster
+			if sprite.rect.colliderect(a):
+				#print "die %s"%a.rect
+				returnarray.append(a)
+			#print "next"
+	elif direction == BOTTOM:
+		for a in group:
+			if sprite.rect.bottom < a.rect.top:
+				#print "giving up"
+				break  ## the key line that makes everything faster
+			if sprite.rect.colliderect(a):
+				#print "die %s"%a.rect
+				returnarray.append(a)
+			#print "next"
+			#else:
+				#print "Exiting loop at:%s"%a.rect
+	
+	#elif direction == RIGHT:
+		#for a in group:
+			#if sprite.rect.left < a.rect.left:
+				#if sprite.rect.colliderect(a.rect):
+					#returnarray.append(a)
 				
+	#elif direction == LEFT:
+		#for a in group:
+			#if sprite.rect.left > a.rect.left:
+				#if sprite.rect.colliderect(a.rect):
+					#returnarray.append(a)
+
+	if die1:
+		for a in returnarray:
+			group.remove(a)
+	return returnarray
+		
+def groupcollide2(group1, group2, die1, die2, direction):
+	returnlist={}
+	for g in group1:
+		a=spritecollide2(g, group2, die2, direction)
+		for b in a:
+			returnlist[g]=b
+	return returnlist
+	

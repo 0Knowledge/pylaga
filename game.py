@@ -35,7 +35,7 @@ class Gamelolz:
 	#This is the __init__ 
 	#its important.
 	def __init__(self,parent):  
-		self.parent=parent        
+		self.parent=parent
 		globalvars.asdf = 0
 		##some key vars, the works
 		self.lagcount=0		
@@ -79,6 +79,11 @@ class Gamelolz:
 		self.player_list.empty()
 		self.enemy_shots.empty()
 		print "Game Restarted"
+		
+	def register_inputs(self):
+		import defaultinputs
+		defaultinputs.setup(self.inputmanager,self)
+
 		
 	#define function to draw player ship on X, Y plane
 	def pship(self):
@@ -200,59 +205,7 @@ class Gamelolz:
 	
 	#does lots and lots of stuff, it really needs to be cleaned up
 	def input(self, events):
-		global x
-		global y
-		#pygame.event.pump()  #somewhere in their docs it said this line was a good idea
-		for event in events:
-			if event.type == QUIT:
-				sys.exit(0)
-			if event.type == pygame.MOUSEMOTION:
-				pygame.event.get()
-				tempx=pygame.mouse.get_pos()[0]-self.player.rect.width/2
-				## Just to make sure we don't get the ship way out there:
-				if tempx > globalvars.xmax: #if its outside the globalvars.window, just stick it as far as possible
-					self.player.move(globalvars.xmax,globalvars.y)
-				elif tempx < globalvars.xmin:
-					self.player.move(globalvars.xmin,globalvars.y)
-				elif abs(tempx-globalvars.x) > globalvars.smooth_scroll_var1:  #smooth scrolling if the mouse gets far from the ship
-					self.player.move(self.player.get_pos().left+(tempx-self.player.get_pos().left)/globalvars.smooth_scroll_var2,globalvars.y)
-				else:		#if it gets down to this point, 
-						#we've passed all sanity checks so just move it
-					self.player.move(tempx,globalvars.y)
-						
-			## if the mouse is clicked, shoot!
-			if event.type == pygame.MOUSEBUTTONDOWN:
-				self.pshoot()
-			
-			## if 'q' is pressed, quit
-			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_q:
-					sys.exit(0)
-				if event.key == pygame.K_p:
-					menulists.pause_menu()
-				if event.key == pygame.K_ESCAPE:
-					sys.exit(0)
-				#keyboard controls
-				if event.key == pygame.K_LEFT:
-					self.leftkeydown=1
-				if event.key == pygame.K_RIGHT:
-					self.rightkeydown=1
-				if event.key == pygame.K_SPACE:
-					self.pshoot()
-
-			
-			#keyboard controls
-			if event.type == pygame.KEYUP:
-				if event.key == pygame.K_LEFT:
-					self.leftkeydown=0
-				if event.key == pygame.K_RIGHT:
-					self.rightkeydown=0	
-		
-					
-		if self.leftkeydown: self.player.move_one(0)
-		if self.rightkeydown: self.player.move_one(1)
-		
-		pygame.event.clear()
+		self.inputmanager.check(events)
 	
 	##################################################################################################################                
 
@@ -264,6 +217,8 @@ class Gamelolz:
 		self.player_list.add(self.player)
 		self.player.set_pos(globalvars.x,globalvars.y)
 		self.health.link_sprite(self.player)
+		self.inputmanager=self.parent.inputmanager
+		self.register_inputs()
 		self.loop()
 
 	#Yeah see this one does all of the work

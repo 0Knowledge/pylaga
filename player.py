@@ -47,6 +47,13 @@ class Player(pygame.sprite.Sprite):
 			if not self.in_range(self.rect):
 				self.rect.move_ip(self.speed,0)
 	
+	def move_one_left(self,p=None):
+		self.move_one(0)
+	
+	def move_one_right(self,p=None):
+		self.move_one(1)
+	
+	
 	def in_range(self,rect):
 		if gamewindow.contains(rect):
 			return True

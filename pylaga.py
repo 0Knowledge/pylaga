@@ -39,6 +39,7 @@ try:
 	from menu import Menu
 	from game import Gamelolz
 	from menulists import MenuLists, menulists
+	from inputmanager import InputManager
 except:
 	exception_handler()
 	sys.exit(0)
@@ -54,6 +55,9 @@ class pylaga:
 	def __init__(self):
 		self.game=Gamelolz(self)
 		self.menu=menulists
+		global inputmanager #because everyone should be able to access it.
+		self.inputmanager=InputManager(self.game)
+		self.inputmanager.standardInputs()
 		
 		self.menu.init_menu()
 		self.game.start()

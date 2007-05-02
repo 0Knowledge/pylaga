@@ -13,6 +13,7 @@
 import pygame, os, sys, math, random
 import globalvars
 from menu import Menu
+from inputmanager import InputManager
 
 ##takes a tuple of menuitem strings as input
 #a generic menu class
@@ -137,6 +138,7 @@ class MenuLists:
 		
 		
 	#generic processor of inputs. bwaha.
+	#hah omgpwneddeprecated
 	def menu_action(self, events, menu):
                 selection=-1
                 pygame.event.pump()

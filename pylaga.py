@@ -57,7 +57,6 @@ class pylaga:
 		self.menu=menulists
 		global inputmanager #because everyone should be able to access it.
 		self.inputmanager=InputManager(self.game)
-		self.inputmanager.standardInputs()
 		
 		self.menu.init_menu()
 		self.game.start()

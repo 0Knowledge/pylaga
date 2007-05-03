@@ -36,7 +36,7 @@ WIN_RESX=800
 global WIN_RESY
 WIN_RESY=600
 global REFRESH_TIME
-REFRESH_TIME=FPS*3
+REFRESH_TIME=100000
 
 global left_boarder
 left_boarder=50
@@ -166,6 +166,14 @@ explosions.append(load_file(DATADIR+'explosion2.bmp'))
 explosions.append(load_file(DATADIR+'explosion3.bmp'))
 explosions.append(load_file(DATADIR+'explosion4.bmp'))
 explosions.append(load_file(DATADIR+'explosion5.bmp'))
+
+playershipanimation=[]
+for x in range(1,7):
+	playershipanimation.append(load_file(DATADIR+'pship'+str(x)+'.jpg'))
+for x in range(7,1,-1):
+	img=load_file(DATADIR+'pship'+str(x)+'.jpg')
+	img=pygame.transform.flip(img,1,0)
+	playershipanimation.append(img)
 
 #initialize pygame
 pygame.init()

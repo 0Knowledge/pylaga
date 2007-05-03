@@ -11,7 +11,7 @@
 #
 #import pygame os and sys libraries
 import pygame, os, sys, math, random
-from globalvars import playership,explosion_speed,gamewindow,max_health
+from globalvars import playership,explosion_speed,gamewindow,max_health,playershipanimation
 from bullet import *
 from gun import *
 from guns import *
@@ -28,6 +28,8 @@ class Player(pygame.sprite.Sprite):
 		self.image= playership[0]
 		self.rect = self.image.get_rect()
 		self.state=0
+		self.imglen=len(playership)
+		self.imglen2=len(playershipanimation)
 		self.speed=10
 		self.gun=gun
 	
@@ -84,10 +86,11 @@ class Player(pygame.sprite.Sprite):
 			#AHH.ahh(1)
 		
 	def update(self):  #yay for update...
+		self.image=playershipanimation[(globalvars.asdf/4)%self.imglen2]
 		if self.state > 0:
 			self.image=playership[self.state/explosion_speed]
 			self.state+=1
-			if self.state >= len(playership)*explosion_speed:
+			if self.state >= self.imglen*explosion_speed:
 				self.state=0
 				self.image=playership[0]
 ###################

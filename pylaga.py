@@ -26,8 +26,12 @@ def exception_handler():
     raise
 
 #import pygame os and sys libraries
+import os, sys
+#little fix so py2exe can find the right modules
+ROOTDIR=os.getcwd()
+sys.path.append(ROOTDIR) 
 try:
-	import pygame, os, sys, math, random
+	import pygame,math, random
 	from pygame.locals import*
 	import globalvars
 	from bullet import Bullet, EnemyBullet

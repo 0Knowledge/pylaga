@@ -10,7 +10,6 @@ description='A small Galaga clone',
 author='RJ Marsan',
 author_email='RJMarsan at gmail.com',
 url='http://rj.selfip.com',
-py_modules=['bullet','background','display','enemy','globalvars','player','stage','menu','gun','ecollide','menu','menulists','token','AHH','stages','enemys','guns','bullets']
 )
 
 shutil.copytree('data', 'dist/data')

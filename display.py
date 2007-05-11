@@ -17,6 +17,7 @@ import globalvars
 #just a temporary object so that health doesnt error when you dont add an object
 class dummy:
 	health=50
+	life=0
 ###################
 ##i needed to make this an object becuase i couldnt figure out how to
 #make it globally available but also writable
@@ -150,3 +151,40 @@ class HealthBar(pygame.sprite.Sprite):
 			self.last_health=currenthealth
 			pygame.draw.rect(self.image,globalvars.bgcolor,pygame.Rect(0,0,self.width,globalvars.max_health-currenthealth))
 #####################
+
+class LivesBar(pygame.sprite.Sprite):
+        offset=10
+        offsetx=globalvars.healthbar_offset_x
+	width=35
+	length=200
+	left=0
+	size=(30,30)
+	
+	def __init__(self, health,objabove):
+		print "lives added"
+		self.player=health.a
+		self.h=health
+		print "player is: %s"%self.player
+		self.lastlife=-100
+		pygame.sprite.Sprite.__init__(self) #call Sprite initializer
+		self.top=objabove.rect.bottom+5
+		self.rect = pygame.Rect(self.offsetx, self.offset+self.top, self.left, self.length) ###changeee
+		self.image= pygame.Surface((self.width,300))
+		self.image.fill((0,0,0))
+		self.image.set_colorkey((0,0,0),pygame.RLEACCEL)
+		self.playerimage=pygame.transform.scale(globalvars.playership[0],self.size)
+		self.playerrect=self.playerimage.get_rect()
+		self.update()
+		
+	def update(self):
+		if self.player != self.h.a:  #cuz of that fuckin dummy obj
+			self.player=self.h.a
+		currenthealth=self.player.life
+		#print "Health is: %s"%currenthealth
+		if self.lastlife != currenthealth:
+			self.lastlife=currenthealth
+			self.image.fill((0,0,0))
+			print "Updating to %s"%currenthealth
+			for x in range(self.lastlife):
+				self.playerrect.topleft=(0,x*(self.playerrect.height+10))
+				self.image.blit(self.playerimage,self.playerrect)

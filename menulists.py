@@ -66,7 +66,7 @@ class MenuLists:
 		return True
 
 
-	def pause_menu(self,parent=None):
+	def pause_menu(self,**kwargs):
                 #self.clear_screen()
                 pygame.mouse.set_visible(1)
 		pygame.event.set_grab(0)

@@ -62,23 +62,23 @@ class InputManager:
 				self.keyhold.append(event.key)
 				if event.key in self.keydowndict:
 					#print self.keydowndict[event.key]
-					self.keydowndict[event.key](self.p)
+					self.keydowndict[event.key](parent=self.p,event=event)
 			if event.type==pygame.KEYUP:
 				try: self.keyhold.remove(event.key);
 				except: pass;
 				if event.key in self.keyupdict:
 					#print self.keyupdict[event.key]
-					self.keyupdict[event.key](self.p)
+					self.keyupdict[event.key](parent=self.p,event=event)
 			if event.type==pygame.MOUSEMOTION:
 				if event.buttons in self.mousemovedict:
-					self.mousemovedict[event.buttons](self.p)
+					self.mousemovedict[event.buttons](parent=self.p,event=event)
 			if event.type==pygame.MOUSEBUTTONDOWN:
 				if event.button in self.mouseclickdict:
-					self.mouseclickdict[event.button](self.p)
+					self.mouseclickdict[event.button](parent=self.p,event=event)
 					
 		for event in self.keyhold:
 			if event in self.keyholddict:
-				self.keyholddict[event](self.p)
+				self.keyholddict[event](parent=self.p,event=event)
 			
 				
 	#just to clean things up	
@@ -87,9 +87,9 @@ class InputManager:
 		self.registerEvent(pygame.KEYDOWN,pygame.K_ESCAPE,self.sysexit)
 	
 	#a few essential inputs
-	def null(self,p):
+	def null(self,parent,event):
 		pass		
-	def sysexit(self,p):
+	def sysexit(self,parent,event):
 		sys.exit(0)
-	def die(self,p):
+	def die(self,parent,event):
 		sys.exit(1)

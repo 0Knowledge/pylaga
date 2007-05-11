@@ -63,8 +63,10 @@ class Gamelolz:
 		self.side_panel.add(self.points)
 		self.health=Health()
 		self.healthbar=HealthBar(self.health)
+		self.livesbar=LivesBar(self.health,self.healthbar)
 		self.side_panel.add(self.healthbar)
 		self.side_panel.add(self.health)
+		self.side_panel.add(self.livesbar)
 		
 	#clears all the variables
 	def clear_vars(self):
@@ -135,7 +137,7 @@ class Gamelolz:
 		
 	
 	#this is called if the player shoots... to be honest i dont know why this is a function
-	def pshoot(self,p=None):
+	def pshoot(self,**args):
 		self.player.shoot()
 	
 	#draws the bullet.... duh. come on dude.
@@ -207,18 +209,18 @@ class Gamelolz:
 	def input(self, events):
 		self.inputmanager.check(events)
 	
-	def mousemove(self,p):
-		tempx=pygame.mouse.get_pos()[0]-p.player.rect.width/2
+	def mousemove(self,parent,event):
+		tempx=pygame.mouse.get_pos()[0]-parent.player.rect.width/2
 		## Just to make sure we don't get the ship way out there:
 		if tempx > globalvars.xmax: #if its outside the globalvars.window, just stick it as far as possible
-			p.player.move(globalvars.xmax,globalvars.y)
+			parent.player.move(globalvars.xmax,globalvars.y)
 		elif tempx < globalvars.xmin:
-			p.player.move(globalvars.xmin,globalvars.y)
+			parent.player.move(globalvars.xmin,globalvars.y)
 		elif abs(tempx-globalvars.x) > globalvars.smooth_scroll_var1:  #smooth scrolling if the mouse gets far from the ship
-			p.player.move(p.player.get_pos().left+(tempx-p.player.get_pos().left)/globalvars.smooth_scroll_var2,globalvars.y)
+			parent.player.move(parent.player.get_pos().left+(tempx-parent.player.get_pos().left)/globalvars.smooth_scroll_var2,globalvars.y)
 		else:		#if it gets down to this point, 
 				#we've passed all sanity checks so just move it
-			p.player.move(tempx,globalvars.y)
+			parent.player.move(tempx,globalvars.y)
 	##################################################################################################################                
 
 

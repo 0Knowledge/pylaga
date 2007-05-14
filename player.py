@@ -11,7 +11,7 @@
 #
 #import pygame os and sys libraries
 import pygame, os, sys, math, random
-from globalvars import playership,explosion_speed,gamewindow,max_health,playershipanimation
+from globalvars import playership,explosion_speed,gamewindow,max_health,playershipanimation,playerdmg,playerdmgani,damagelevel,init_lives
 from bullet import *
 from gun import *
 from guns import *
@@ -30,9 +30,11 @@ class Player(pygame.sprite.Sprite):
 		self.state=0
 		self.imglen=len(playership)
 		self.imglen2=len(playershipanimation)
+		self.playership=playership
+		self.playershipani=playershipanimation
 		self.speed=10
 		self.gun=gun
-		self.life=3
+		self.life=init_lives
 	
 	def get_pos(self):
 		return self.rect
@@ -42,13 +44,13 @@ class Player(pygame.sprite.Sprite):
 		
 	def move_one(self,direction):
 		if direction == 1:
-			self.rect.move_ip(self.speed,0)
+			self.rect.left+=self.speed
 			if not self.in_range(self.rect): #if it goes out of the range, move it back
-				self.rect.move_ip((-1)*self.speed,0)
+				self.rect.left-=self.speed
 		elif direction == 0:
-			self.rect.move_ip((-1)*self.speed,0)
+			self.rect.left-=self.speed
 			if not self.in_range(self.rect):
-				self.rect.move_ip(self.speed,0)
+				self.rect.left+=self.speed
 	
 	def move_one_left(self,**kwargs):
 		self.move_one(0)
@@ -68,10 +70,19 @@ class Player(pygame.sprite.Sprite):
 	def set_hit(self,health):
 		self.state=1
 		self.health-=health
+		if self.health <= damagelevel:
+			#print "Changed to dmged img"
+			if self.playership != playerdmg:
+				self.playershipani=playerdmgani
+				self.playership=playerdmg
 		if self.health <= 0 and self.life > 0:
 			self.health=max_health
-			print "JOO DIED!! but luckily you got %s lives and %s health"%(self.life,self.health)
+			print "AKK dead! but luckily you got %s lives and %s health"%(self.life,self.health)
 			self.life-=1
+			if self.playership != playership:
+				self.playershipani= playershipanimation
+				self.playership= playership
+		
 		
 	def shoot(self):
 		self.gun.shoot(self.rect)
@@ -93,12 +104,12 @@ class Player(pygame.sprite.Sprite):
 	def update(self):  #yay for update...
 		
 		if self.state > 0:
-			self.image=playership[self.state/explosion_speed]
+			self.image=self.playership[self.state/explosion_speed]
 			self.state+=1
 			if self.state >= self.imglen*explosion_speed:
 				self.state=0
 				self.image=playership[0]
 		else:
-			self.image=playershipanimation[(globalvars.asdf/4)%self.imglen2]
+			self.image=self.playershipani[(globalvars.asdf/4)%self.imglen2]
 ###################
 

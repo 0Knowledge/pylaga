@@ -1,3 +1,4 @@
+import globalvars
 def start(p):
 	p.enemy_rows=3
 	p.enemy_cols=5
@@ -10,3 +11,6 @@ def start(p):
 	p.enemyclass=Enemy
 	p.enemygunclass=EnemyGun
 	p.enemybulletclass=EnemyBullet
+	#globalvars.bgcolor=(0,0,50)  ##a small hack to change the background color
+	#p.p.background.fill(globalvars.bgcolor)
+	#p.p.clear_screen()

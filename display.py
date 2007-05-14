@@ -154,7 +154,7 @@ class HealthBar(pygame.sprite.Sprite):
 
 class LivesBar(pygame.sprite.Sprite):
         offset=10
-        offsetx=globalvars.healthbar_offset_x
+        offsetx=5
 	width=35
 	length=200
 	left=0
@@ -169,10 +169,11 @@ class LivesBar(pygame.sprite.Sprite):
 		pygame.sprite.Sprite.__init__(self) #call Sprite initializer
 		self.top=objabove.rect.bottom+5
 		self.rect = pygame.Rect(self.offsetx, self.offset+self.top, self.left, self.length) ###changeee
-		self.image= pygame.Surface((self.width,300))
-		self.image.fill((0,0,0))
+		self.image= pygame.Surface((self.width,200))
 		self.image.set_colorkey((0,0,0),pygame.RLEACCEL)
+		self.image.blit(globalvars.screen,self.image.get_rect())
 		self.playerimage=pygame.transform.scale(globalvars.playership[0],self.size)
+		self.playerimage.set_colorkey(globalvars.bgcolor,pygame.RLEACCEL)
 		self.playerrect=self.playerimage.get_rect()
 		self.update()
 		
@@ -183,8 +184,10 @@ class LivesBar(pygame.sprite.Sprite):
 		#print "Health is: %s"%currenthealth
 		if self.lastlife != currenthealth:
 			self.lastlife=currenthealth
-			self.image.fill((0,0,0))
 			print "Updating to %s"%currenthealth
 			for x in range(self.lastlife):
 				self.playerrect.topleft=(0,x*(self.playerrect.height+10))
+				self.image.blit(globalvars.screen,self.playerrect)
 				self.image.blit(self.playerimage,self.playerrect)
+			self.playerrect.topleft=(0,(self.lastlife+1)*(self.playerrect.height+10))
+			self.image.blit(globalvars.screen,self.playerrect)

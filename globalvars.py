@@ -86,6 +86,7 @@ healthbar_offset_x=10
 healthbar_width=7
 points_text_size=14
 max_health=100
+init_lives=3
 #vars for the bg stars
 global BG_Speed, init_stars, star_color
 BG_Speed=5
@@ -149,6 +150,14 @@ playership.append(load_file(DATADIR+'pship1.bmp'))
 playership.append(load_file(DATADIR+'pship2.bmp'))
 playership.append(load_file(DATADIR+'pship3.bmp'))
 
+playerdmg=[]
+
+playerdmg.append(load_file(DATADIR+'pshipdamage.bmp'))
+playerdmg.append(load_file(DATADIR+'pshipdamage1.bmp'))
+playerdmg.append(load_file(DATADIR+'pshipdamage2.bmp'))
+playerdmg.append(load_file(DATADIR+'pshipdamage3.bmp'))
+damagelevel=30
+
 #loads enemy ship image
 enemyship=(load_file(DATADIR+'eship.bmp'))
 enemyship2=(load_file(DATADIR+'enemy2.jpeg'))
@@ -174,6 +183,10 @@ for x in range(7,1,-1):
 	img=load_file(DATADIR+'pship'+str(x)+'.jpg')
 	img=pygame.transform.flip(img,1,0)
 	playershipanimation.append(img)
+playerdmgani=[]
+playerdmgimg=load_file(DATADIR+'pshipdamage.bmp')
+for temp in range(len(playershipanimation)):
+	playerdmgani.append(playerdmgimg)
 
 #initialize pygame
 pygame.init()

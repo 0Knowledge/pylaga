@@ -5,6 +5,7 @@
 # if you REALLY want to. and you think yer coool, you can do p.p.ANYTHING and get the entire game object
 # or if you were feeling completely devilish you could do p.p.parent and get the entire program object.
 # BWAHAHAHAHAHHAAHAHAHA
+import globalvars
 def start(p):
 	p.enemy_rows=4
 	p.enemy_cols=5

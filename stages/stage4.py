@@ -10,3 +10,4 @@ def start(p):
 	from gun import EnemyGun2
 	p.enemyclass=Enemy2
 	p.enemygunclass=EnemyGun2
+	p.enemy_damage=20

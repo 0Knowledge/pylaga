@@ -36,7 +36,7 @@ class Stage:
 		file=self.datadir+str(0)
 		execstr="import "+file
 		try:
-			if os.name=='nt':
+			if os.name=='nt':  #hax for the fuckin winblowz users
 				exec "import stages.stage"+str(0)
 				self.current_stage=eval("stages.stage0")
 			else:

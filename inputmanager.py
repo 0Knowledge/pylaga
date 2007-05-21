@@ -23,7 +23,7 @@ class InputManager:
 		self.keyholddict={}
 		self.mousemovedict={}
 		self.mouseclickdict={}
-		self.keyhold=[]
+		self.keyhold={} # this Neeeeeds to be a dict, or else keys get stuck in the list more than once, and never let go
 		self.standardInputs()
 		
 	def registerEvent(self,eventtype,event,reaction):
@@ -59,12 +59,12 @@ class InputManager:
 		#pygame.event.pump()  #somewhere in their docs it said this line was a good idea
 		for event in events:
 			if event.type==pygame.KEYDOWN:
-				self.keyhold.append(event.key)
+				self.keyhold[event.key]=True 
 				if event.key in self.keydowndict:
 					#print self.keydowndict[event.key]
 					self.keydowndict[event.key](parent=self.p,event=event)
 			if event.type==pygame.KEYUP:
-				try: self.keyhold.remove(event.key);
+				try: del self.keyhold[event.key];
 				except: pass;
 				if event.key in self.keyupdict:
 					#print self.keyupdict[event.key]
@@ -77,7 +77,7 @@ class InputManager:
 					self.mouseclickdict[event.button](parent=self.p,event=event)
 					
 		for event in self.keyhold:
-			if event in self.keyholddict:
+			if event in self.keyholddict.keys():
 				self.keyholddict[event](parent=self.p,event=event)
 			
 				

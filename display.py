@@ -184,7 +184,7 @@ class LivesBar(pygame.sprite.Sprite):
 		#print "Health is: %s"%currenthealth
 		if self.lastlife != currenthealth:
 			self.lastlife=currenthealth
-			print "Updating to %s"%currenthealth
+			#print "Updating to %s"%currenthealth
 			for x in range(self.lastlife):
 				self.playerrect.topleft=(0,x*(self.playerrect.height+10))
 				self.image.blit(globalvars.screen,self.playerrect)

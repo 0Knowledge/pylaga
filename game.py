@@ -23,6 +23,7 @@ try:
 	from menulists import MenuLists,menulists
 	import ecollision #testing class for smarter collisions
 	from gun import Gun
+	from event import Event
 except:
 	print "A File Was Missing. CHECK!"
 	#sys.exit(0)
@@ -39,8 +40,6 @@ class Gamelolz:
 		globalvars.asdf = 0
 		##some key vars, the works
 		self.lagcount=0		
-		self.leftkeydown=0
-		self.rightkeydown=0
 		#a little hack so that the background works nicer
 		self.background=globalvars.screen
 		#make the rectlist to handle dirty updating
@@ -55,6 +54,7 @@ class Gamelolz:
 		self.token_list=pygame.sprite.RenderUpdates()
 		##make a new stage object
 		self.stage=Stage(self,self.list_enemys,self.player_list,self.enemy_shots,self.list_allie_shots)
+		#self.setup_events()
 		self.new_display()
 	
 	def new_display(self):
@@ -115,9 +115,9 @@ class Gamelolz:
 			#print "ZOMFG SHOTZORZ"
 			self.player.set_hit(q.damage)
 			self.enemy_shots.remove(q)
-		if self.token_list:
-			for token in ecollision.spritecollide(self.player, self.token_list,0, ecollision.TOP):
-				print token
+		#if self.token_list:
+		#	for token in ecollision.spritecollide(self.player, self.token_list,0, ecollision.TOP):
+		#		print token
 	
 	#if there are no enemys left, go to the next stage
 	def check_done(self):
@@ -227,7 +227,7 @@ class Gamelolz:
 	#pretty simple
 	def start(self):
 		self.clear_vars()
-		self.player=Player(self.player_list,Gun(self.list_allie_shots,Bullet))
+		self.player=Player(self.player_list,self.token_list,Gun(self.list_allie_shots,Bullet))
 		self.player_list.add(self.player)
 		self.player.set_pos(globalvars.x,globalvars.y)
 		self.health.link_sprite(self.player)

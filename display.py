@@ -37,6 +37,7 @@ class Points(pygame.sprite.Sprite):
 		self.pointsrect=self.pointsimg.get_rect()
 		self.pointsrect.move_ip(0,self.textrect.height)
 		self.image= pygame.Surface((self.textrect.width,self.pointsrect.height+self.textrect.height))
+		globalvars.normalize_img(self.image)
 		#self.image.set_alpha(100)
 		pygame.Surface.blit(self.image,self.textimg,self.textrect)
 		pygame.Surface.blit(self.image,self.pointsimg,self.pointsrect)
@@ -91,6 +92,7 @@ class Health(pygame.sprite.Sprite):
 		self.healthrect=self.healthimg.get_rect()
 		self.healthrect.move_ip(0,self.textrect.height)
 		self.image= pygame.Surface((self.textrect.width,self.healthrect.height+self.textrect.height))
+		globalvars.normalize_img(self.image)
 		#self.image.set_alpha(100)points
 		pygame.Surface.blit(self.image,self.textimg,self.textrect)
 		pygame.Surface.blit(self.image,self.healthimg,self.healthrect)
@@ -137,6 +139,7 @@ class HealthBar(pygame.sprite.Sprite):
 		self.top=health.get_size().bottom
 		self.rect = pygame.Rect(self.offsetx, self.offset+self.top, 5, 110) ###changeee
 		self.image= pygame.Surface((self.width,110))
+		globalvars.normalize_img(self.image)
 		self.healthobject=health
 		self.last_health=globalvars.max_health
 		pygame.draw.rect(self.image,(128,128,128),pygame.Rect(0,0,self.width,self.last_health))
@@ -170,7 +173,7 @@ class LivesBar(pygame.sprite.Sprite):
 		self.top=objabove.rect.bottom+5
 		self.rect = pygame.Rect(self.offsetx, self.offset+self.top, self.left, self.length) ###changeee
 		self.image= pygame.Surface((self.width,200))
-		self.image.set_colorkey((0,0,0),pygame.RLEACCEL)
+		globalvars.normalize_img(self.image)
 		self.image.blit(globalvars.screen,self.image.get_rect())
 		self.playerimage=pygame.transform.scale(globalvars.playership[0],self.size)
 		self.playerimage.set_colorkey(globalvars.bgcolor,pygame.RLEACCEL)

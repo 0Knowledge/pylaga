@@ -11,6 +11,7 @@
 #
 #import pygame os and sys libraries
 import pygame, os, sys, math, random
+import explosion
 from globalvars import playership,explosion_speed,gamewindow,max_health,playershipanimation,playerdmg,playerdmgani,damagelevel,init_lives
 from bullet import *
 from gun import *
@@ -22,9 +23,10 @@ from bullets import *
 class Player(pygame.sprite.Sprite):
 	health=max_health
 	
-	def __init__(self,parent,gun):
+	def __init__(self,parent,secondparent,gun):
 		pygame.sprite.Sprite.__init__(self) #call Sprite initializer
 		self.parent=parent
+		self.secondparent=secondparent
 		self.image= playership[0]
 		self.rect = self.image.get_rect()
 		self.state=0
@@ -79,6 +81,7 @@ class Player(pygame.sprite.Sprite):
 			self.health=max_health
 			print "AKK dead! but luckily you got %s lives and %s health"%(self.life,self.health)
 			self.life-=1
+			explosion.Explode(self,self.secondparent)
 			if self.playership != playership:
 				self.playershipani= playershipanimation
 				self.playership= playership

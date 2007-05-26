@@ -123,16 +123,19 @@ surface = pygame.display.get_surface()
 #surface = pygame.Surface((WIN_RESX,WIN_RESY))    ....ignore
 #surfacerect = surface.get_rect()
 
-
+def normalize_img(img):
+	img.set_colorkey((0,0,0),pygame.RLEACCEL)
+	img.convert()
+	
 def load_file(filename):
     try:
         imgfile=os.path.join(filename)
         img = pygame.image.load(imgfile).convert()
-	img.set_colorkey((0,0,0),pygame.RLEACCEL)
-        return img
+        normalize_img(img)
+	return img
     except:
         print "Failed to load file "+filename
-	
+
 
 #loads the background file
 screen = pygame.Surface((WIN_RESX,WIN_RESY))

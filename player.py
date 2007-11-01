@@ -12,7 +12,8 @@
 #import pygame os and sys libraries
 import pygame, os, sys, math, random
 import explosion
-from globalvars import playership,explosion_speed,gamewindow,max_health,playershipanimation,playerdmg,playerdmgani,damagelevel,init_lives
+from globalvars import playership,explosion_speed,gamewindow,max_health,playershipanimation,playerdmg,playerdmgani,damagelevel,init_lives, x, y
+import globalvars  #what the fuck. try this. print out 'x' and you'll see it disagrees with globalvars.x. that makes no sense, either way its why im importing it
 from bullet import *
 from gun import *
 from guns import *
@@ -37,15 +38,22 @@ class Player(pygame.sprite.Sprite):
 		self.speed=10
 		self.gun=gun
 		self.life=init_lives
+		self.wait_on_dead=0            #don't yell at me for making these. garrett suggested it.
+		self.wait_on_dead_limit=100    #everything is his fault.
+					       #IT MAKES THE CODE UGLY. UGLY!!!!
 	
 	def get_pos(self):
 		return self.rect
 	
 	def move(self, x,y):
+		if self.wait_on_dead:
+			return
 		self.rect.topleft=(x,y)
 		
 	def move_one(self,direction):
-		if direction == 1:
+		if self.wait_on_dead:
+			return
+		elif direction == 1:
 			self.rect.left+=self.speed
 			if not self.in_range(self.rect): #if it goes out of the range, move it back
 				self.rect.left-=self.speed
@@ -85,6 +93,7 @@ class Player(pygame.sprite.Sprite):
 			if self.playership != playership:
 				self.playershipani= playershipanimation
 				self.playership= playership
+			self.wait_on_dead=1
 		
 		
 	def shoot(self):
@@ -105,14 +114,22 @@ class Player(pygame.sprite.Sprite):
 			#AHH.ahh(1)
 		
 	def update(self):  #yay for update...
-		
-		if self.state > 0:
-			self.image=self.playership[self.state/explosion_speed]
-			self.state+=1
-			if self.state >= self.imglen*explosion_speed:
-				self.state=0
-				self.image=playership[0]
+		if not self.wait_on_dead:
+			if self.state > 0:
+				self.image=self.playership[self.state/explosion_speed]
+				self.state+=1
+				if self.state >= self.imglen*explosion_speed:
+					self.state=0
+					self.image=playership[0]
+			else:
+				self.image=self.playershipani[(globalvars.asdf/4)%self.imglen2]
+			print self.rect.topleft
 		else:
-			self.image=self.playershipani[(globalvars.asdf/4)%self.imglen2]
+			self.wait_on_dead+=1
+			if self.wait_on_dead > self.wait_on_dead_limit:
+				self.wait_on_dead=0
+				self.move(globalvars.x,y)
+			else:
+				self.rect.topleft=(-100,-100)
 ###################
 

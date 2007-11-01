@@ -106,7 +106,7 @@ class MenuLists:
 		self.clear_screen()
 		
 	def about_menu(self):
-		self.special_menu(("!This is a small galaga clone written in Python","!Written By:","!RJ Marsan","!Original:","!Derek Mcdonald","!Version: %s"%globalvars.VERSION,"!","Back"))
+		self.special_menu(("!This is a small galaga clone written in Python","!Written By:","!     RJ Marsan","!Original:","!     Derek Mcdonald","!Version: %s"%globalvars.VERSION,"!","Back"))
 	
 	def help_menu(self):
 		self.special_menu(("!Help:","!     Left: Left Arrow or Mouse","!     Right: Right Arrow or Mouse","!     Shoot: Space or Mouse Left","!     Pause: p","!     Exit: q or esc","!","Back"))

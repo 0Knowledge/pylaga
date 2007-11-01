@@ -27,7 +27,7 @@ class ExplosionPiece(Token):
 		self.image= image
 		self.rect = self.image.get_rect()
 		self.rect.center=initialloc
-		self.deltax=random.randint(3,7)
+		self.deltax=random.uniform(1.1,3)
 		self.deltay=random.randint(-9,-3)
 		self.inity=self.rect.top
 		self.rotation=10
@@ -40,6 +40,7 @@ class ExplosionPiece(Token):
 		self.rect.centerx+=self.deltax
 		self.rect.top+=self.deltay
 		self.deltay+=.2
+		self.deltax*=1.02
 		if self.rect.top > globalvars.WIN_RESX:
 			self.parent.remove(self)
 ###################

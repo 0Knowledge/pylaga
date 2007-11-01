@@ -123,7 +123,6 @@ class Player(pygame.sprite.Sprite):
 					self.image=playership[0]
 			else:
 				self.image=self.playershipani[(globalvars.asdf/4)%self.imglen2]
-			print self.rect.topleft
 		else:
 			self.wait_on_dead+=1
 			if self.wait_on_dead > self.wait_on_dead_limit:
